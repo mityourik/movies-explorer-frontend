@@ -1,0 +1,66 @@
+.header {
+    padding: 0 70px;
+    background: #073042;
+}
+
+.header__container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 74px;
+}
+
+.header__column_content_logo {
+    display: flex;
+}
+
+.header__logo {
+    width: 38px;
+}
+
+.header__column_content_nav {
+    display: flex;
+    max-width: 350px;
+    width: 100%;
+}
+
+.header__nav-container {
+    display: flex;
+    align-items: center;
+    margin-left: 86px;
+    /* display: none; */
+}
+
+.header__nav-link {
+    text-decoration: none;
+    color: #fff;
+    font-family: 'Inter', 'Arial', sans-serif;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 18px;
+    padding: 0;
+    margin-left: 16px;
+}
+
+.header__column_content_account {
+    display: flex;
+    align-items: center;
+}
+
+.header__account-img {
+    margin-top: 4px;
+    padding: 0;
+    display: flex;
+    object-fit: none;
+    width: 100px;
+}
+
+.header__button-account {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    outline: none;
+    cursor: pointer;
+}

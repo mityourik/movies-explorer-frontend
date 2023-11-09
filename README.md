@@ -1,3 +1,2 @@
-# movies-explorer-frontend
-#checkckeh
-#sdfsdf
+## Front React
+Верстка по макету light-1
