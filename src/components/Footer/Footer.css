@@ -1,0 +1,66 @@
+.footer {
+    max-width: 1140px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.footer__title {
+    color: #A0A0A0;
+    text-align: center;
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: 'Inter', 'Arial', sans-serif;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    border-bottom: solid 1px #E8E8E8;
+    padding: 79px 0 20px 0;
+    margin: 0 auto;
+}
+
+.footer__container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer__column_content_year {
+    display: flex;
+}
+
+.footer__year {
+    display: flex;
+    color: #000;
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: 'Inter', 'Arial', sans-serif;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.footer__column_content_links {
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.footer__link {
+    color: #000;
+    text-align: right;
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: 'Inter', 'Arial', sans-serif;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    margin-right: 20px;
+    text-decoration: none;
+}
+
+.footer__column_content_links .footer__item:nth-child(2) .footer__link {
+    margin-right: 0;
+}
