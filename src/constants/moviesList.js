@@ -36,17 +36,53 @@ const moviesList = [
         image: 'https://images.pexels.com/photos/18869171/pexels-photo-18869171/free-photo-of-contemplando.jpeg?auto=compress&cs=tinysrgb&w=1200&lazy=load'
     },
     {
-        id: 15,
+        id: 7,
         name: 'The GodDog',
         time: '2h 55min',
         image: 'https://images.pexels.com/photos/18889183/pexels-photo-18889183/free-photo-of-portrait-of-a-hooded-man-standing-in-rain.jpeg?auto=compress&cs=tinysrgb&w=1200&lazy=load'
     },
     {
-        id: 16,
+        id: 9,
         name: 'The GodDog',
         time: '2h 55min',
         image: 'https://images.pexels.com/photos/18889183/pexels-photo-18889183/free-photo-of-portrait-of-a-hooded-man-standing-in-rain.jpeg?auto=compress&cs=tinysrgb&w=1200&lazy=load'
-    }
+    },
+    {
+        id: 10,
+        name: 'The GodDog',
+        time: '2h 55min',
+        image: 'https://images.pexels.com/photos/18889183/pexels-photo-18889183/free-photo-of-portrait-of-a-hooded-man-standing-in-rain.jpeg?auto=compress&cs=tinysrgb&w=1200&lazy=load'
+    },
+    {
+        id: 11,
+        name: 'The GodDog',
+        time: '2h 55min',
+        image: 'https://images.pexels.com/photos/18889183/pexels-photo-18889183/free-photo-of-portrait-of-a-hooded-man-standing-in-rain.jpeg?auto=compress&cs=tinysrgb&w=1200&lazy=load'
+    },
+    {
+        id: 12,
+        name: 'The GodDog',
+        time: '2h 55min',
+        image: 'https://images.pexels.com/photos/18889183/pexels-photo-18889183/free-photo-of-portrait-of-a-hooded-man-standing-in-rain.jpeg?auto=compress&cs=tinysrgb&w=1200&lazy=load'
+    },
+    {
+        id: 13,
+        name: 'The GodDog',
+        time: '2h 55min',
+        image: 'https://images.pexels.com/photos/18889183/pexels-photo-18889183/free-photo-of-portrait-of-a-hooded-man-standing-in-rain.jpeg?auto=compress&cs=tinysrgb&w=1200&lazy=load'
+    },
+    {
+        id: 14,
+        name: 'The GodDog',
+        time: '2h 55min',
+        image: 'https://images.pexels.com/photos/18889183/pexels-photo-18889183/free-photo-of-portrait-of-a-hooded-man-standing-in-rain.jpeg?auto=compress&cs=tinysrgb&w=1200&lazy=load'
+    },
+    {
+        id: 15,
+        name: 'The GodDog',
+        time: '2h 55min',
+        image: 'https://images.pexels.com/photos/18889183/pexels-photo-18889183/free-photo-of-portrait-of-a-hooded-man-standing-in-rain.jpeg?auto=compress&cs=tinysrgb&w=1200&lazy=load'
+    },
 ];
 
 export default moviesList;

@@ -3,6 +3,7 @@ import SearchForm from './SearchForm/SearchForm';
 import './Movies.css';
 import MoviesCardList from './MoviesCardList/MoviesCardList';
 import SavedMovies from '../SavedMovies/SavedMovies';
+import Footer from '../Footer/Footer';
 
 function Movies() {
     const [savedMovies, setSavedMovies] = useState([]);
@@ -35,6 +36,7 @@ function Movies() {
                 onLike={handleSavedMovie}
                 likedMovies={likedMovies}
             />
+            <Footer />
         </section>
     );
 }

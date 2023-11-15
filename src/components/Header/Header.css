@@ -3,6 +3,10 @@
     background: #073042;
 }
 
+.header__theme_white {
+    background: #fff;
+}
+
 .header__container {
     display: flex;
     flex-direction: row;
@@ -34,6 +38,18 @@
 .header__nav-link {
     text-decoration: none;
     color: #fff;
+    font-family: 'Inter', 'Arial', sans-serif;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 18px;
+    padding: 0;
+    margin-left: 16px;
+}
+
+.header__nav-link_theme_white {
+    text-decoration: none;
+    color: #000;
     font-family: 'Inter', 'Arial', sans-serif;
     font-size: 13px;
     font-style: normal;
