@@ -1,5 +1,5 @@
 .movies-card {
-    margin: 38px 0 0 0;
+    margin: 0;
     list-style: none;
 }
 
@@ -17,7 +17,8 @@
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid #E8E8E8;
-    padding: 0 0 29px 0;
+    padding: 0 0 24px 0;
+    margin: 8px 0 0 0;
 }
 
 .movies-card__name {
@@ -28,6 +29,7 @@
     font-style: normal;
     font-weight: 500;
     line-height: normal;
+    margin: 0;
 }
 
 .movies-card__duration {
@@ -44,6 +46,19 @@
 .movies-card__button {
     display: flex;
     background-image: url('../../../images/movies-card__like-image.svg');
+    background-repeat: no-repeat;
+    outline: none;
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+    border: none;
+    border-radius: 20px;
+    transition: background-image 0.5s ease-in-out;
+}
+
+.movies-card__button_delete {
+    display: flex;
+    background-image: url('../../../images//movies-card__button_delete.svg');
     background-repeat: no-repeat;
     outline: none;
     cursor: pointer;

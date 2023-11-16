@@ -1,20 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './MoviesCard.css';
 import PropTypes from 'prop-types';
 
-function MoviesCard (props) {
-    const { movie, onLike, onRemoveMovie, likedMovies } = props;
-    const isLiked = likedMovies.some((likedMovie) => likedMovie.id === movie.id);
+function MoviesCard({ movie, isSavedPage, onLike, onDelete }) {
+    const [isLiked, setIsLiked] = useState(false);
 
-    const handleClickLike = () => {
-        if (isLiked) {
-            onRemoveMovie(movie.id);
-        } else {
+    const handleLikeClick = () => {
+        setIsLiked(!isLiked);
+        if (onLike) {
             onLike(movie);
         }
     };
 
-    const likeMovieButton = `movies-card__button ${isLiked ? 'movies-card__button_liked' : ''}`;
+    const handleDeleteClick = () => {
+        if (onDelete) {
+            onDelete(movie);
+        }
+    };
 
     return (
         <li className='movies-card'>
@@ -25,28 +27,35 @@ function MoviesCard (props) {
             />
             <div className='movies-card__group'>
                 <h2 className='movies-card__name'>{movie.name}</h2>
-                <button
-                    className={likeMovieButton}
-                    onClick={handleClickLike}
-                    type='button'
-                />
+                {isSavedPage ? (
+                    <button
+                        className='movies-card__button movies-card__button_delete'
+                        onClick={handleDeleteClick}
+                        type='button'
+                    />
+                ) : (
+                    <button
+                        className={`movies-card__button ${isLiked ? 'movies-card__button_liked' : ''}`}
+                        onClick={handleLikeClick}
+                        type='button'
+                    />
+                )}
             </div>
             <p className='movies-card__duration'>{movie.time}</p>
         </li>
     );
 }
 
-
 MoviesCard.propTypes = {
     movie: PropTypes.shape({
         id: PropTypes.number.isRequired,
         name: PropTypes.string.isRequired,
         time: PropTypes.string.isRequired,
-        image: PropTypes.string.isRequired
+        image: PropTypes.string.isRequired,
     }).isRequired,
-    onLike: PropTypes.func.isRequired,
-    onRemoveMovie: PropTypes.func.isRequired,
-    likedMovies: PropTypes.array.isRequired,
+    isSavedPage: PropTypes.bool,
+    onLike: PropTypes.func,
+    onDelete: PropTypes.func,
 };
 
 export default MoviesCard;

@@ -1,11 +1,11 @@
-.movies {
+.saved-movies {
     width: 100%;
     margin: 0 auto;
     max-width: 1140px;
     position: relative;
 }
 
-.movies__container {
+.saved-movies__container {
     width: 100%;
     list-style: none;
     margin: 0 auto;
@@ -15,7 +15,7 @@
     gap: 20px;
 }
 
-.movies__more-button {
+.saved-movies__more-button {
     border-radius: 6px;
     background: #F9F9F9;
     border: none;

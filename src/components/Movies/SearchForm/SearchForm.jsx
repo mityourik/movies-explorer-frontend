@@ -4,7 +4,7 @@ import sortButtonEnabled from '../../../images/search-form__sort-button_enabled.
 import sortButtonDisabled from '../../../images/search-form__sort-button_disabled.svg';
 import PropTypes from 'prop-types';
 
-function SearchForm ({ children, onSort }) {
+function SearchForm({ children, onSort }) {
     const [isSorted, setIsSorted] = useState(false);
 
     const handleSortClick = () => {
@@ -17,14 +17,16 @@ function SearchForm ({ children, onSort }) {
     return (
         <div className='search-form__container'>
             <form className='search-form__form'>
-                <input className='search-form__input' type='text' placeholder='Фильм'/>
-                <button className='search-form__submit-button' type='submit'>Найти</button>
+                <label className='search-form__label' htmlFor='movieInput'>
+                    <input id='movieInput' className='search-form__input' type='text' placeholder='Фильм' />
+                    <button className='search-form__submit-button' type='submit'>Найти</button>
+                </label>
                 <button className='search-form__sort-button' type='button' onClick={handleSortClick}>
-                    <img 
+                    <img
                         src={isSorted ? sortButtonEnabled : sortButtonDisabled}
                         alt='Кнопка сортировки'
-                        className={`search-form__sort-icon ${isSorted ? 'search-form__sort-icon_sorted' : ''}`}/>
-                    Короткометражки
+                        className={`search-form__sort-icon ${isSorted ? 'search-form__sort-icon_sorted' : ''}`} />
+          Короткометражки
                 </button>
                 {children}
             </form>

@@ -1,29 +1,51 @@
-import React from 'react';
-// import './SavedMovies.css';
+import React, { useState } from 'react';
 import MoviesCard from '../Movies/MoviesCard/MoviesCard';
-import PropTypes from 'prop-types';
+import savedMoviesList from '../../constants/savedMoviesList';
+import './SavedMovies.css';
+import SearchForm from '../Movies/SearchForm/SearchForm';
 
-function SavedMovies ({ savedMovies, onRemoveMovie, onLike, likedMovies }) {
+function SavedMovies () {
+    const initialVisibleCount = 16;
+    const [savedMovies, setSavedMovies] = useState(savedMoviesList);
+    const [visibleCount, setVisibleCount] = useState(initialVisibleCount);
+
+    const handleDeleteMovie = (movieToDelete) => {
+        console.log('trying to del');
+        const updatedMoviesList = savedMovies.filter((movie) => movie.id !== movieToDelete.id);
+        setSavedMovies(updatedMoviesList);
+    };
+
+    const visibleMovies = savedMoviesList.slice(0, visibleCount);
+
+    const handleLoadMoreClick = () => {
+        setVisibleCount(visibleCount + 16);
+    };
+
     return (
-        <ul className='movies-list'>
-            {savedMovies.map((movie) => (
-                <MoviesCard
-                    key={movie.id}
-                    movie={movie}
-                    likedMovies={likedMovies}
-                    onRemoveMovie={onRemoveMovie}
-                    onLike={onLike}
-                />
-            ))}
-        </ul>
+        <>
+            <SearchForm />
+            <section className='saved-movies'>
+                <ul className='saved-movies__container'>
+                    {visibleMovies.map((movie) => (
+                        <MoviesCard
+                            key={movie.id}
+                            movie={movie}
+                            isSavedPage={true}
+                            onDelete={handleDeleteMovie}
+                        />
+                    ))}
+                </ul>
+                {visibleCount < savedMoviesList.length && (
+                    <button
+                        className='saved-movies__more-button'
+                        onClick={handleLoadMoreClick}
+                    >
+            Еще
+                    </button>
+                )}
+            </section>
+        </>
     );
 }
-
-SavedMovies.propTypes = {
-    savedMovies: PropTypes.array.isRequired,
-    onRemoveMovie: PropTypes.func.isRequired,
-    onLike: PropTypes.func.isRequired,
-    likedMovies: PropTypes.array.isRequired,
-};
 
 export default SavedMovies;

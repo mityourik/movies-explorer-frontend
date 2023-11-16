@@ -16,6 +16,12 @@
 
 .header__column_content_logo {
     display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.header__logo-link {
+    cursor: pointer;
 }
 
 .header__logo {
@@ -26,37 +32,6 @@
     display: flex;
     max-width: 350px;
     width: 100%;
-}
-
-.header__nav-container {
-    display: flex;
-    align-items: center;
-    margin-left: 86px;
-    /* display: none; */
-}
-
-.header__nav-link {
-    text-decoration: none;
-    color: #fff;
-    font-family: 'Inter', 'Arial', sans-serif;
-    font-size: 13px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 18px;
-    padding: 0;
-    margin-left: 16px;
-}
-
-.header__nav-link_theme_white {
-    text-decoration: none;
-    color: #000;
-    font-family: 'Inter', 'Arial', sans-serif;
-    font-size: 13px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 18px;
-    padding: 0;
-    margin-left: 16px;
 }
 
 .header__column_content_account {

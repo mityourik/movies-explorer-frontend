@@ -1,43 +1,38 @@
 import React, { useState } from 'react';
-import SearchForm from './SearchForm/SearchForm';
 import './Movies.css';
-import MoviesCardList from './MoviesCardList/MoviesCardList';
-import SavedMovies from '../SavedMovies/SavedMovies';
-import Footer from '../Footer/Footer';
+import moviesArray from '../../constants/moviesList';
+import MoviesCard from './MoviesCard/MoviesCard';
+import SearchForm from './SearchForm/SearchForm';
 
 function Movies() {
-    const [savedMovies, setSavedMovies] = useState([]);
-    const [likedMovies, setLikedMovies] = useState([]);
+    const initialVisibleCount = 16;
+    const [visibleCount, setVisibleCount] = useState(initialVisibleCount);
 
-    const handleSavedMovie = (movie) => {
-        if (!likedMovies.some(m => m.id === movie.id)) {
-            setLikedMovies([...likedMovies, movie]);
-            setSavedMovies([...savedMovies, movie]);
-        }
-    };
+    const visibleMovies = moviesArray.slice(0, visibleCount);
 
-    const handleRemoveMovie = (movieId) => {
-        const updatedLikedMovies = likedMovies.filter((movie) => movie.id !== movieId);
-        setLikedMovies(updatedLikedMovies);
-        setSavedMovies(updatedLikedMovies);
+    const handleLoadMoreClick = () => {
+        setVisibleCount(visibleCount + 16);
     };
 
     return (
-        <section className='movies'>
+        <>
             <SearchForm />
-            <MoviesCardList
-                onLike={handleSavedMovie}
-                likedMovies={likedMovies}
-                onRemoveMovie={handleRemoveMovie}
-            />
-            <SavedMovies
-                savedMovies={savedMovies}
-                onRemoveMovie={handleRemoveMovie}
-                onLike={handleSavedMovie}
-                likedMovies={likedMovies}
-            />
-            <Footer />
-        </section>
+            <section className='movies'>
+                <ul className='movies__container'>
+                    {visibleMovies.map((movie) => (
+                        <MoviesCard key={movie.id} movie={movie} />
+                    ))}
+                </ul>
+                {visibleCount < moviesArray.length && (
+                    <button
+                        className='movies__more-button'
+                        onClick={handleLoadMoreClick}
+                    >
+            Еще
+                    </button>
+                )}
+            </section>
+        </>
     );
 }
 

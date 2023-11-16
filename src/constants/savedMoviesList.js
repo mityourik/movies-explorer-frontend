@@ -1,21 +1,21 @@
-const moviesList = [
+const savedMoviesList = [
     {
         id: 1,
         name: 'The Godfather',
         time: '2h 55min',
-        image: 'https://images.pexels.com/photos/18861833/pexels-photo-18861833/free-photo-of-elderly-man-walking-on-sidewalk.jpeg?auto=compress&cs=tinysrgb&w=1200&lazy=load'
+        image: 'https://images.pexels.com/photos/19122345/pexels-photo-19122345/free-photo-of-yanni-por-thiago-rosarii.jpeg?auto=compress&cs=tinysrgb&w=1200&lazy=load'
     },
     {
         id: 2,
         name: 'The GodMother',
         time: '2h 55min',
-        image: 'https://images.pexels.com/photos/18845325/pexels-photo-18845325/free-photo-of-be-free.jpeg?auto=compress&cs=tinysrgb&w=1200&lazy=load'
+        image: 'https://images.pexels.com/photos/17719835/pexels-photo-17719835/free-photo-of-a-man-in-black-shirt-standing-next-to-graffiti.jpeg?auto=compress&cs=tinysrgb&w=1200&lazy=load'
     },
     {
         id: 3,
         name: 'The GodSister',
         time: '2h 55min',
-        image: 'https://images.pexels.com/photos/13633065/pexels-photo-13633065.jpeg?auto=compress&cs=tinysrgb&w=1200&lazy=load'
+        image: 'https://images.pexels.com/photos/18963992/pexels-photo-18963992/free-photo-of-crosswalk-in-city.jpeg?auto=compress&cs=tinysrgb&w=1200&lazy=load'
     },
     {
         id: 4,
@@ -37,12 +37,6 @@ const moviesList = [
     },
     {
         id: 7,
-        name: 'The GodDog',
-        time: '2h 55min',
-        image: 'https://images.pexels.com/photos/18889183/pexels-photo-18889183/free-photo-of-portrait-of-a-hooded-man-standing-in-rain.jpeg?auto=compress&cs=tinysrgb&w=1200&lazy=load'
-    },
-    {
-        id: 8,
         name: 'The GodDog',
         time: '2h 55min',
         image: 'https://images.pexels.com/photos/18889183/pexels-photo-18889183/free-photo-of-portrait-of-a-hooded-man-standing-in-rain.jpeg?auto=compress&cs=tinysrgb&w=1200&lazy=load'
@@ -85,9 +79,9 @@ const moviesList = [
     },
     {
         id: 15,
-        name: 'The Godfather',
+        name: 'The GodDog',
         time: '2h 55min',
-        image: 'https://images.pexels.com/photos/18861833/pexels-photo-18861833/free-photo-of-elderly-man-walking-on-sidewalk.jpeg?auto=compress&cs=tinysrgb&w=1200&lazy=load'
+        image: 'https://images.pexels.com/photos/18889183/pexels-photo-18889183/free-photo-of-portrait-of-a-hooded-man-standing-in-rain.jpeg?auto=compress&cs=tinysrgb&w=1200&lazy=load'
     },
     {
         id: 16,
@@ -229,4 +223,4 @@ const moviesList = [
     },
 ];
 
-export default moviesList;
+export default savedMoviesList;
