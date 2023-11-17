@@ -3,6 +3,8 @@ import './Movies.css';
 import moviesArray from '../../constants/moviesList';
 import MoviesCard from './MoviesCard/MoviesCard';
 import SearchForm from './SearchForm/SearchForm';
+import Header from '../Header/Header';
+import Footer from '../Footer/Footer';
 
 function Movies() {
     const initialVisibleCount = 16;
@@ -16,6 +18,7 @@ function Movies() {
 
     return (
         <>
+            <Header />
             <SearchForm />
             <section className='movies'>
                 <ul className='movies__container'>
@@ -32,6 +35,7 @@ function Movies() {
                     </button>
                 )}
             </section>
+            <Footer />
         </>
     );
 }

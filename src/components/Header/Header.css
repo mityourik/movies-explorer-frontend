@@ -20,14 +20,6 @@
     justify-content: center;
 }
 
-.header__logo-link {
-    cursor: pointer;
-}
-
-.header__logo {
-    width: 38px;
-}
-
 .header__column_content_nav {
     display: flex;
     max-width: 350px;

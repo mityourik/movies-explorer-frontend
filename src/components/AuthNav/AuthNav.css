@@ -1,0 +1,28 @@
+.auth-nav__container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: 16px 0 0 0;
+}
+
+.auth-nav__paragraph {
+    color: #A0A0A0;
+    text-align: center;
+    font-family: 'Inter', 'Arial', sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    margin: 0;
+}
+
+.auth-nav__link {
+    color: #3456F3;
+    text-align: center;
+    font-family: 'Inter', 'Arial', sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-decoration: none;
+}

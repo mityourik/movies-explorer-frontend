@@ -3,6 +3,8 @@ import MoviesCard from '../Movies/MoviesCard/MoviesCard';
 import savedMoviesList from '../../constants/savedMoviesList';
 import './SavedMovies.css';
 import SearchForm from '../Movies/SearchForm/SearchForm';
+import Header from '../Header/Header';
+import Footer from '../Footer/Footer';
 
 function SavedMovies () {
     const initialVisibleCount = 16;
@@ -23,6 +25,7 @@ function SavedMovies () {
 
     return (
         <>
+            <Header />
             <SearchForm />
             <section className='saved-movies'>
                 <ul className='saved-movies__container'>
@@ -44,6 +47,7 @@ function SavedMovies () {
                     </button>
                 )}
             </section>
+            <Footer />
         </>
     );
 }

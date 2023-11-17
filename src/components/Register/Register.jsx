@@ -1,9 +1,12 @@
 import React from 'react';
 import './Register.css';
-import registerLogo from '../../images/header__logo.svg';
-import { Link } from 'react-router-dom';
 import AuthForm from '../AuthForm/AuthForm';
 import PropTypes from 'prop-types';
+import AuthFormContainer from '../AuthFormContainer/AuthFormContainer';
+import AuthFormTitle from '../AuthFormTitle/AuthFormTitle';
+import AuthNav from '../AuthNav/AuthNav';
+import Logo from '../Logo/Logo';
+import SubmitFormButton from '../SubmitFormButton/SubmitFormButton';
 
 function Register ({ onRegister, isPreloading }) {
 
@@ -13,39 +16,31 @@ function Register ({ onRegister, isPreloading }) {
     }
 
     return (
-        <section className='register'>
-            <div className='register__container'>
-                <img
-                    className='register__logo'
-                    src={registerLogo}
-                />
-                <AuthForm
-                    title='Добро пожаловать!'
-                    onSubmit={handleSubmit}
+        <AuthFormContainer>
+            <Logo />
+            <AuthFormTitle
+                title='Добро пожаловать!'
+            />
+            <AuthForm
+                onSubmit={handleSubmit}
+                isRegistration={true}
+            >
+                <SubmitFormButton
                     buttonText='Зарегистрироваться'
                     isPreloading={isPreloading}
-                    isRegistration={true}
-                >
-                    <div className='register__nav-container'>
-                        <p
-                            className='register__paragraph'>
-            Уже зарегистрированы?&nbsp;
-                        </p>
-                        <Link
-                            className='register__link'
-                            to='/signin'
-                        >
-            Войти
-                        </Link>
-                    </div>
-                </AuthForm>
-            </div>
-        </section>
+                />
+            </AuthForm>
+            <AuthNav
+                questionText='Уже зарегистрированы?'
+                linkText='Войти'
+                linkTo='/signin'
+            />
+        </AuthFormContainer>
     );
 }
 
 Register.propTypes = {
-    onRegister: PropTypes.func.isRequired,
+    onRegister: PropTypes.func,
     isPreloading: PropTypes.bool,
 };
 
