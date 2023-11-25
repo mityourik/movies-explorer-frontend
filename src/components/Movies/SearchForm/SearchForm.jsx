@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './SearchForm.css';
 import PropTypes from 'prop-types';
-import TempSwitch from '../Switch/TempSwitch';
+import Switch from '../Switch/Switch';
 
 function SearchForm({ children, onSort }) {
     const [isSorted, setIsSorted] = useState(false);
@@ -20,7 +20,7 @@ function SearchForm({ children, onSort }) {
                     <input id='movieInput' className='search-form__input' type='text' placeholder='Фильм' />
                     <button className='search-form__submit-button' type='submit'>Найти</button>
                 </label>
-                <TempSwitch onSortClick={handleSortClick}/>
+                <Switch onSortClick={handleSortClick}/>
                 {children}
             </form>
         </section>

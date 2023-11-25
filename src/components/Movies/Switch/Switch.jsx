@@ -2,7 +2,7 @@ import React from 'react';
 import './Switch.css';
 import PropTypes from 'prop-types';
 
-function TempSwitch ({ onSortClick }) {
+function Switch ({ onSortClick }) {
     return (
         <label className='switch' onClick={onSortClick}>
             <input className='switch__input' type='checkbox' id='filter-checkbox' />
@@ -12,8 +12,8 @@ function TempSwitch ({ onSortClick }) {
     );
 }
 
-TempSwitch.propTypes = {
+Switch.propTypes = {
     onSortClick: PropTypes.func.isRequired,
 };
 
-export default TempSwitch;
+export default Switch;
