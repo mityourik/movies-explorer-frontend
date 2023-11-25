@@ -1,11 +1,9 @@
 .techs {
-    min-height: 625px;
-    height: 100%;
     background: #F5F5F5;
+    padding: 0 70px 100px 70px;
 }
 
 .techs__container {
-    max-width: 1140px;
     width: 100%;
     margin: 0 auto;
 }
@@ -37,7 +35,7 @@
 }
 
 .techs__list {
-    margin: 100px 0 100px 0;
+    margin: 100px 0 0 0;
     padding: 0;
     display: flex;
     list-style: none;
@@ -54,6 +52,7 @@
     height: 100%;
     background: #E8E8E8;
     border-radius: 10px;
+    padding: 0;
     margin: 0 10px 0 0;
     color: #000;
     text-align: center;
@@ -63,4 +62,73 @@
     font-weight: 400;
     line-height: normal;
     letter-spacing: -0.56px;
+}
+
+.techs__item:last-of-type {
+    margin: 0;
+}
+
+@media screen and (max-width: 885px) {
+    .techs {
+        padding: 90px 50px;
+    }
+
+    .techs__title {
+        margin: 80px 0 auto;
+    }
+
+    .techs__subtitle {
+        margin: 22px auto;
+        max-width: 460px;
+        width: 100%;
+        font-size: 12px;
+        line-height: 18px; /* 150% */
+        letter-spacing: -0.48px;
+    }
+
+    .techs__list {
+        margin: 83px 0 0 0;
+    }
+
+    .techs__item {
+        max-width: 84px;
+        min-height: 57px;
+        font-size: 12px;
+        letter-spacing: -0.48px;
+    }
+}
+
+@media screen and (max-width: 569px) {
+    .techs {
+        padding: 70px 18px;
+    }
+
+    .techs__title {
+        margin: 50px 0 auto;
+        font-size: 30px;
+        letter-spacing: -1.2px;
+    }
+
+    .techs__subtitle {
+        margin: 13px auto auto auto;
+        font-size: 11px;
+        line-height: 16px;
+        letter-spacing: -0.44px;
+    }
+
+    .techs__list {
+        margin: 50px auto auto auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(84px, 1fr));
+        max-width: 178px;
+        grid-column-gap: 10px;
+        grid-row-gap: 10px;
+    }
+
+    .techs__item {
+        max-width: 84px;
+        min-height: 57px;
+        font-size: 12px;
+        letter-spacing: -0.48px;
+    }
 }

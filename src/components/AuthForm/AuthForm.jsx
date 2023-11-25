@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types'; 
 import { useFormAndValidation } from '../../hooks/UseFormAndValidation';
 import './AuthForm.css';
 
-function AuthForm({ children, isRegistration, onSubmit }) {
+function AuthForm({ children, isRegistration, onSubmit, onValidChange }) {
     const { values, handleChange, errors, isValid } = useFormAndValidation();
+
+    useEffect(() => {
+        onValidChange(isValid);
+    }, [isValid, onValidChange]);
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -14,12 +18,13 @@ function AuthForm({ children, isRegistration, onSubmit }) {
     }
 
     return (
-        <form className='auth-form__form'
+        <form
+            className='auth-form__form'
             onSubmit={handleSubmit}
-            noValidate
-        >
+            noValidate>
             {isRegistration && (
-                <label className='auth-form__label'>
+                <label
+                    className='auth-form__label'>
             Имя
                     <input
                         className={`auth-form__input ${errors.username ? 'invalid' : ''}`}
@@ -41,7 +46,8 @@ function AuthForm({ children, isRegistration, onSubmit }) {
                     </span>
                 </label>
             )}
-            <label className='auth-form__label'>
+            <label
+                className='auth-form__label'>
             Почта
                 <input
                     className={`auth-form__input ${errors.email ? 'invalid' : ''}`}
@@ -60,7 +66,8 @@ function AuthForm({ children, isRegistration, onSubmit }) {
                 id='auth-form-email-error'>
                 {errors.email}
             </span>
-            <label className='auth-form__label'>
+            <label
+                className='auth-form__label'>
             Пароль
                 <input
                     id='autho-form-password'
@@ -88,7 +95,8 @@ function AuthForm({ children, isRegistration, onSubmit }) {
 AuthForm.propTypes = {
     children: PropTypes.node,
     isRegistration: PropTypes.bool,
-    onSubmit: PropTypes.func.isRequired
+    onSubmit: PropTypes.func.isRequired,
+    onValidChange: PropTypes.func.isRequired
 };
 
 export default AuthForm;

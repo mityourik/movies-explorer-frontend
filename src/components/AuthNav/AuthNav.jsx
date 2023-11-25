@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 function AuthNav ({ questionText, linkText, linkTo }) {
     return (
-        <div className='auth-nav__container'>
+        <nav className='auth-nav__container'>
             <p
                 className='auth-nav__paragraph'>
                 {questionText}&nbsp;
@@ -16,7 +16,7 @@ function AuthNav ({ questionText, linkText, linkTo }) {
             >
                 {linkText}
             </Link>
-        </div>
+        </nav>
     );
 }
 

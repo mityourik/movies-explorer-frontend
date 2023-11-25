@@ -18,12 +18,6 @@
     align-items: center;
 }
 
-/* .profile__span-space {
-    display: inline-block;
-    min-height: 217px;
-    height: 100%;
-} */
-
 .profile__edit-button {
     border: none;
     background: none;
@@ -37,6 +31,12 @@
     line-height: normal;
     display: flex;
     cursor: pointer;
+    transition: opacity 0.3s ease;
+    opacity: 1;
+}
+
+.profile__edit-button:hover {
+    opacity: 0.6;
 }
 
 .profile__exit-button {
@@ -53,6 +53,27 @@
     margin: 16px auto 0;
     display: flex;
     cursor: pointer;
+    transition: opacity 0.3s ease;
+    opacity: 1;
+}
+
+.profile__exit-button:hover {
+    opacity: 0.7;
+}
+
+.profile__span-error {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 34px;
+    margin-top: 168px;
+    color: #FF004C;
+    text-align: center;
+    font-family: 'Inter', 'Arial', sans-serif;
+    font-size: 11px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
 }
 
 .profile__submit-button {
@@ -73,5 +94,56 @@
     min-height: 45px;
     height: 100%;
     cursor: pointer;
-    margin: 202px 0 0 0;
+    margin: 0;
+    transition: opacity 0.5s ease;
+    opacity: 1;
+    padding: 0;
+}
+
+.profile__submit-button:hover {
+    opacity: 0.8;    
+}
+
+@media screen and (max-width: 768px) {
+    .profile__container {
+        margin: 235px auto 269px;
+    }
+
+    .profile__title {
+        margin: 0 auto 97px;
+    }
+
+    .profile__edit-button {
+        margin: 192px auto 0;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .profile__container {
+        padding: 70px 30px 40px 30px;
+        max-width: none;
+        margin: 0;
+        width: auto;
+    }
+
+    .profile__title {
+        margin: 0 auto 80px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .profile__edit-button {
+        margin: 362px auto 0;
+        font-size: 12px;
+    }
+
+    .profile__submit-button {
+        font-size: 12px;
+        margin: 0;
+    }
+
+    .profile__exit-button {
+        font-size: 12px;
+    }
 }

@@ -25,4 +25,20 @@
     font-weight: 400;
     line-height: normal;
     text-decoration: none;
+    transition: opacity 0.3s ease;
+    opacity: 1;
+}
+
+.auth-nav__link:hover {
+    opacity: 0.7;
+}
+
+@media screen and (max-width: 500px) {
+    .auth-nav__paragraph {
+        font-size: 12px;
+    }
+
+    .auth-nav__link {
+        font-size: 12px;
+    }
 }

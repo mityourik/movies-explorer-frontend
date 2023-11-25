@@ -3,24 +3,33 @@ import { useState, useCallback } from 'react';
 export function useFormAndValidation() {
     const [values, setValues] = useState({});
     const [errors, setErrors] = useState({});
-    const [isValid, setIsValid] = useState(true);
+    const [isValid, setIsValid] = useState(false);
+
+    const validate = (name, value) => {
+        let errorMessage = '';
+
+        if (!value) {
+            errorMessage = 'Это поле не может быть пустым';
+        } else if (name === 'email' && !/\S+@\S+\.\S+/.test(value)) {
+            errorMessage = 'Некорректный формат электронной почты';
+        } else if (name === 'password' && value.length < 6) {
+            errorMessage = 'Пароль должен быть не менее 6 символов';
+        } else if (name === 'username' && value.length < 3) {
+            errorMessage = 'Имя должно содержать не менее 3 символов';
+        }
+
+        return errorMessage;
+    };
 
     const handleChange = (e) => {
-        const { name, value } = e.target;//деструктуризация объекта события
-        const form = e.target.closest('form');//ближайшая родительская форма относительно текущего элемента
+        const { name, value } = e.target;
+        const form = e.target.closest('form');
     
-        //валидация
-        let errorMessage = ''; // переменная пустой ошибки
-        if (!value) { //проверка значени инпутов если пустые
-            errorMessage = '';//то очистить
-        } else {
-            errorMessage = e.target.validationMessage;//показать станд сообщение об ошибке
-        }
+        const errorMessage = validate(name, value);
     
-        //обновление состояний
         setValues(prevValues => ({ ...prevValues, [name]: value }));
         setErrors(prevErrors => ({ ...prevErrors, [name]: errorMessage }));
-        setIsValid(form.checkValidity());//обновление состояния валидности формы на соответствие паттерну
+        setIsValid(form.checkValidity());
     };
 
     const resetForm = useCallback(

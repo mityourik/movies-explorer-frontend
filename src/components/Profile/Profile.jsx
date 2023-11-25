@@ -10,35 +10,41 @@ function Profile ({ isPreloading, userName }) {
     return (
         <>
             <Header />
-            <div className='profile__container'>
+            <section className='profile__container'>
                 <h1 className='profile__title'>{`Привет, ${userName}!`}</h1>
                 <ProfileForm
                     isEditing={isEditing}
                 >
                     {isEditing ? (
-                        <button
-                            className='profile__submit-button'
-                            type='submit'
-                            onSubmit={() => console.log('Submit Profile')}
-                        >
-                            {isPreloading ? 'Загрузка...' : 'Сохранить'}
-                        </button>
+                        <>
+                            <span className='profile__span-error'>При авторизации произошла ошибка. Токен не передан или передан не в том формате.</span>
+                            <button
+                                className='profile__submit-button'
+                                type='submit'
+                                onSubmit={() => console.log('Submit Profile')}
+                            >
+                                {isPreloading ? 'Загрузка...' : 'Сохранить'}
+                            </button>
+                        </>
                     ) : (
-                        <button
-                            className='profile__edit-button'
-                            onClick={() => setIsEditing(true)}
-                        >
+                        <>
+                            <button
+                                className='profile__edit-button'
+                                onClick={() => setIsEditing(true)}
+                            >
                             Редактировать
-                        </button>
+                            </button>
+                            <button
+                                className='profile__exit-button'
+                                onClick={() => console.log('Выход')}
+                            >
+                            Выйти из аккаунта
+                            </button>
+                        </>
                     )}
-                    <button
-                        className='profile__exit-button'
-                        onClick={() => console.log('Выход')}
-                    >
-                        Выйти из аккаунта
-                    </button>
+                    
                 </ProfileForm>
-            </div>
+            </section>
         </>
     );
 }

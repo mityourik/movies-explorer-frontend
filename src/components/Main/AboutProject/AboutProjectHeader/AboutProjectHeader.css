@@ -12,3 +12,18 @@
     padding: 100px 0 23px 0;
     border-bottom: 1px solid #000;
 }
+
+@media screen and (max-width: 885px) {
+    .about-project__title {
+        padding: 0 0 23px 0;
+    }
+}
+
+@media screen and (max-width: 569px) {
+    .about-project__title {
+        font-family: Inter;
+        font-size: 18px;
+        letter-spacing: -0.72px;
+        padding: 0 0 28px 0;
+    }
+}

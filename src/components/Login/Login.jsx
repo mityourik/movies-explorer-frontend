@@ -1,13 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import AuthForm from '../AuthForm/AuthForm';
 import PropTypes from 'prop-types';
-import AuthFormContainer from '../AuthFormContainer/AuthFormContainer';
-import AuthFormTitle from '../AuthFormTitle/AuthFormTitle';
 import AuthNav from '../AuthNav/AuthNav';
-import Logo from '../Logo/Logo';
 import SubmitFormButton from '../SubmitFormButton/SubmitFormButton';
+import loginLogo from '../../images/header__logo.svg';
+import './Login.css';
 
 function Login({ onLogin, isPreloading }) {
+    const [formIsValid, setFormIsValid] = useState(false);
+
+    function handleValidChange(isValid) {
+        setFormIsValid(isValid);
+    }
 
     function handleSubmit(values) {
         const { email, password } = values;
@@ -15,25 +19,33 @@ function Login({ onLogin, isPreloading }) {
     }
 
     return (
-        <AuthFormContainer>
-            <Logo />
-            <AuthFormTitle
-                title='Рады снова видеть!'
-            />
-            <AuthForm
-                onSubmit={handleSubmit}
-            >
-                <SubmitFormButton
-                    buttonText='Войти'
-                    isPreloading={isPreloading}
+        <main
+            className='login'>
+            <div
+                className='login__container'>
+                <img
+                    className='login__logo'
+                    src={loginLogo} />
+                <h1
+                    className='login__title'>
+                    Рады видеть!</h1>
+                <AuthForm
+                    onSubmit={handleSubmit}
+                    onValidChange={handleValidChange}
+                >
+                    <SubmitFormButton
+                        buttonText='Войти'
+                        isPreloading={isPreloading}
+                        isFormValid={formIsValid}
+                    />
+                </AuthForm>
+                <AuthNav
+                    questionText='Еще не зарегистрированы?'
+                    linkText='Регистрация'
+                    linkTo='/signup'
                 />
-            </AuthForm>
-            <AuthNav
-                questionText='Еще не зарегистрированы?'
-                linkText='Регистрация'
-                linkTo='/signup'
-            />
-        </AuthFormContainer>
+            </div>
+        </main>
     );
 }
 
