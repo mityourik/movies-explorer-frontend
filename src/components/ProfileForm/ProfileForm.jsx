@@ -11,7 +11,7 @@ function ProfileForm ({ children, isEditing }) {
     }
 
     return (
-        <form className='profile-form__form'
+        <form className='profile-form'
             onSubmit={handleSubmit}
             noValidate
         >

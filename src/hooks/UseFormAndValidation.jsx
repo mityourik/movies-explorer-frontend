@@ -16,6 +16,8 @@ export function useFormAndValidation() {
             errorMessage = 'Пароль должен быть не менее 6 символов';
         } else if (name === 'username' && value.length < 3) {
             errorMessage = 'Имя должно содержать не менее 3 символов';
+        } else if (name === 'movie' && value.length < 3) {
+            errorMessage = 'Введите более 3 символов для поиска ролика';
         }
 
         return errorMessage;

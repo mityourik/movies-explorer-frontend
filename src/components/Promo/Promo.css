@@ -60,6 +60,10 @@
     margin: 146px 0 0 0;
     transition: opacity 0.5s ease;
     opacity: 1;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .promo__button:hover {

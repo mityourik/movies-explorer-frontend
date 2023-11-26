@@ -4,7 +4,7 @@ import './AboutProjectHeader.css';
 
 function AboutProjectHeader ({ title}) {
     return(
-        <h1 className='about-project__title'>{title}</h1>
+        <h2 className='about-project__title'>{title}</h2>
     );
 }
 

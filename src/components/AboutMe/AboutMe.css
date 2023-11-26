@@ -45,7 +45,7 @@
     padding: 0;
 }
 
-.abou-me__grid-paragraph {
+.about-me__grid-paragraph {
     grid-area: paragraph;
     font-family: 'Inter', 'Arial', sans-serif;
     color: #000;
@@ -118,7 +118,7 @@
         padding: 0;
     }
 
-    .abou-me__grid-paragraph {
+    .about-me__grid-paragraph {
         font-size: 12px;
         font-style: normal;
         font-weight: 500;
@@ -169,7 +169,7 @@
         margin: 0;
     }
     
-    .abou-me__grid-paragraph {
+    .about-me__grid-paragraph {
         font-size: 11px;
         line-height: 16px;
     }

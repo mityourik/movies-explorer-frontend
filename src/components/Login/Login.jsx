@@ -19,31 +19,31 @@ function Login({ onLogin, isPreloading }) {
     }
 
     return (
-        <main
-            className='login'>
-            <div
-                className='login__container'>
-                <img
-                    className='login__logo'
-                    src={loginLogo} />
-                <h1
-                    className='login__title'>
-                    Рады видеть!</h1>
-                <AuthForm
-                    onSubmit={handleSubmit}
-                    onValidChange={handleValidChange}
-                >
-                    <SubmitFormButton
-                        buttonText='Войти'
-                        isPreloading={isPreloading}
-                        isFormValid={formIsValid}
+        <main className='main'>
+            <div className='login'>
+                <div className='login__container'>
+                    <img
+                        className='login__logo'
+                        src={loginLogo} />
+                    <h1
+                        className='login__title'>
+                        Рады видеть!</h1>
+                    <AuthForm
+                        onSubmit={handleSubmit}
+                        onValidChange={handleValidChange}
+                    >
+                        <SubmitFormButton
+                            buttonText='Войти'
+                            isPreloading={isPreloading}
+                            isFormValid={formIsValid}
+                        />
+                    </AuthForm>
+                    <AuthNav
+                        questionText='Еще не зарегистрированы?'
+                        linkText='Регистрация'
+                        linkTo='/signup'
                     />
-                </AuthForm>
-                <AuthNav
-                    questionText='Еще не зарегистрированы?'
-                    linkText='Регистрация'
-                    linkTo='/signup'
-                />
+                </div>
             </div>
         </main>
     );

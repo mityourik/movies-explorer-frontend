@@ -7,7 +7,7 @@ function Navigation () {
     const isHomePage = location.pathname === '/';
 
     return (
-        <div className='navigation__container'>
+        <div className='navigation'>
             <NavLink to='/movies' className={`navigation__nav-link ${isHomePage ? '' : 'navigation__nav-link_theme_white'}`} href='#'>Фильмы</NavLink>
             <NavLink to='/saved-movies' className={`navigation__nav-link ${isHomePage ? '' : 'navigation__nav-link_theme_white'}`} href='#'>Сохраненные фильмы</NavLink>
         </div>

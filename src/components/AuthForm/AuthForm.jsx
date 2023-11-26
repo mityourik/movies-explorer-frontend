@@ -19,7 +19,7 @@ function AuthForm({ children, isRegistration, onSubmit, onValidChange }) {
 
     return (
         <form
-            className='auth-form__form'
+            className='auth-form'
             onSubmit={handleSubmit}
             noValidate>
             {isRegistration && (
@@ -70,7 +70,7 @@ function AuthForm({ children, isRegistration, onSubmit, onValidChange }) {
                 className='auth-form__label'>
             Пароль
                 <input
-                    id='autho-form-password'
+                    id='auth-form-password'
                     type='password'
                     name='password'
                     className={`auth-form__input ${errors.password ? 'invalid' : ''}`}

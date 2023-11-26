@@ -19,34 +19,35 @@ function Register ({ onRegister, isPreloading }) {
     }
 
     return (
-        <main
-            className='register'>
-            <div
-                className='register__container'>
-                <img
-                    className='register__logo'
-                    alt='Логотип сайта'
-                    src={registerLogo} />
-                <h1
-                    className='register__title'>
-                        Добро пожаловать!</h1>
-                <AuthForm
-                    onSubmit={handleSubmit}
-                    isRegistration={true}
-                    onValidChange={handleValidChange}
-                >
-                    <SubmitFormButton
-                        buttonText='Зарегистрироваться'
-                        isPreloading={isPreloading}
-                        isFormValid={formIsValid}
+        <main className='main'>
+            <section className='register'>
+                <div
+                    className='register__container'>
+                    <img
+                        className='register__logo'
+                        alt='Логотип сайта'
+                        src={registerLogo} />
+                    <h1
+                        className='register__title'>
+                            Добро пожаловать!</h1>
+                    <AuthForm
+                        onSubmit={handleSubmit}
+                        isRegistration={true}
+                        onValidChange={handleValidChange}
+                    >
+                        <SubmitFormButton
+                            buttonText='Зарегистрироваться'
+                            isPreloading={isPreloading}
+                            isFormValid={formIsValid}
+                        />
+                    </AuthForm>
+                    <AuthNav
+                        questionText='Уже зарегистрированы?'
+                        linkText='Войти'
+                        linkTo='/signin'
                     />
-                </AuthForm>
-                <AuthNav
-                    questionText='Уже зарегистрированы?'
-                    linkText='Войти'
-                    linkTo='/signin'
-                />
-            </div>
+                </div>
+            </section>
         </main>
     );
 }

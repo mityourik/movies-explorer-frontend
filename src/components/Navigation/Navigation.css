@@ -1,4 +1,4 @@
-.navigation__container {
+.navigation {
     display: none;
     align-items: center;
     margin: 8px 0 0 0;
@@ -57,7 +57,7 @@
 }
 
 @media screen and (min-width: 871px) {
-    .navigation__container {
+    .navigation {
         display: flex;
     }
 }

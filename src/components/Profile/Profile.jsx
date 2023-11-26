@@ -2,15 +2,13 @@ import React, { useState } from 'react';
 import './Profile.css';
 import ProfileForm from '../ProfileForm/ProfileForm';
 import PropTypes from 'prop-types';
-import Header from '../Header/Header';
 
 function Profile ({ isPreloading, userName }) {
     const [isEditing, setIsEditing] = useState(false);
 
     return (
-        <>
-            <Header />
-            <section className='profile__container'>
+        <main className='main'>
+            <section className='profile'>
                 <h1 className='profile__title'>{`Привет, ${userName}!`}</h1>
                 <ProfileForm
                     isEditing={isEditing}
@@ -42,10 +40,9 @@ function Profile ({ isPreloading, userName }) {
                             </button>
                         </>
                     )}
-                    
                 </ProfileForm>
             </section>
-        </>
+        </main>
     );
 }
 

@@ -139,6 +139,10 @@
     .header__account-img {
         display: flex;
     }
+
+    .header___account-img_theme-white {
+        display: flex;
+    }
 }
 
 @media screen and (max-width: 870px) {
@@ -147,6 +151,10 @@
     }
 
     .header__account-img {
+        display: none;
+    }
+
+    .header___account-img_theme-white {
         display: none;
     }
 }

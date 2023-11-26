@@ -1,4 +1,4 @@
-.profile__container {
+.profile {
     max-width: 410px;
     width: 100%;
     margin: 0 auto;
@@ -105,7 +105,7 @@
 }
 
 @media screen and (max-width: 768px) {
-    .profile__container {
+    .profile {
         margin: 235px auto 269px;
     }
 
@@ -119,7 +119,7 @@
 }
 
 @media screen and (max-width: 500px) {
-    .profile__container {
+    .profile {
         padding: 70px 30px 40px 30px;
         max-width: none;
         margin: 0;

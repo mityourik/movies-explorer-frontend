@@ -1,25 +1,18 @@
-import React, { useRef } from 'react';
-import Header from '../Header/Header';
-import Promo from '../Main/Promo/Promo';
-import AboutProject from '../Main/AboutProject/AboutProject';
-import Techs from '../Main/Techs/Techs';
-import AboutMe from '../Main/AboutMe/AboutMe';
-import Footer from '../Footer/Footer';
+import React from 'react';
+import Promo from '../Promo/Promo';
+import AboutProject from '../AboutProject/AboutProject';
+import Techs from '../Techs/Techs';
+import AboutMe from '../AboutMe/AboutMe';
 
 function Landing () {
-    const aboutProjectRef = useRef(null);
 
     return (
-        <>
-            <Header />
-            <Promo scrollToRef={aboutProjectRef} />
-            <div ref={aboutProjectRef}>
-                <AboutProject />
-            </div>
+        <main className='main'>
+            <Promo />
+            <AboutProject />
             <Techs />
             <AboutMe />
-            <Footer />
-        </>
+        </main>
     );
 }
 

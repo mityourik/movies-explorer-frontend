@@ -3,7 +3,7 @@
     display: flex;
     width: 34px;
     height: 14px;
-    margin: 33px 0 0 0;
+    margin: 16px 0 0 0;
     align-items: center;
 }
 
@@ -60,6 +60,9 @@
 }
 
 @media screen and (max-width: 1279px) {
+    .switch {
+        margin: 13px 0 0 0;
+    }
 
     .switch__text {
         margin: 0 0 0 -135px;
@@ -68,7 +71,7 @@
 
 @media screen and (max-width: 320px) {
     .switch {
-        margin: 44px 73px 0 0;
+        margin: 22px 73px 0 0;
     }
 
     .switch__text {

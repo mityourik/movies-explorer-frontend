@@ -3,22 +3,16 @@
     to { opacity: 1; }
 }
 
-@keyframes fadeOutBackground {
-    from { opacity: 1; transform: translateX(0%); }
-    to { opacity: 0; transform: translateX(100%); }
-}
-
 @keyframes slideIn {
     from { transform: translateX(100%); }
     to { transform: translateX(0); }
 }
 
-@keyframes slideOut {
-    from { transform: translateX(0); }
-    to { transform: translateX(100%); }
+.menu-popup {
+    display: none;
 }
 
-.menu-popup {
+.menu-popup_opened {
     position: fixed;
     top: 0;
     right: 0;
@@ -29,17 +23,15 @@
     justify-content: flex-end;
     align-items: center;
     z-index: 1000;
+    animation: fadeInBackground 0.5s forwards;
 }
 
-.menu-popup.open {
-    animation: fadeInBackground 0.5s ease-out forwards;
+.menu-popup__two-columns {
+    display: none;
+    animation: slideIn 0.5s forwards;
 }
 
-.menu-popup.close {
-    animation: fadeOutBackground 0.3s ease-out forwards;
-}
-
-.menu-popup__two-colunns {
+.menu-popup__two-columns_opened {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -50,15 +42,9 @@
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 
-.menu-popup__two-colunns.open {
-    animation: slideIn 0.4s ease-out forwards;
-}
 
-.menu-popup__two-colunns.close {
-    animation: slideOut 0.2s ease-out forwards;
-}
 
-.menu-popup__two-columns_content_navigation {
+.menu-popup__two-columns-content_navigation {
     display: flex;
 }
 
@@ -100,11 +86,11 @@
     opacity: 0.7;
 }
 
-.menu-popup__link.active {
+.menu-popup__link_active {
     border-bottom: 2px solid #000;
 }
 
-.menu-popup__two-columns_content_profile {
+.menu-popup__two-columns-content_profile {
     display: flex;
     margin-bottom: 90px;
 } 
@@ -119,7 +105,7 @@
     outline: none;
     cursor: pointer;
     display: flex;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.5s ease;
     opacity: 1;
 }
 
@@ -127,7 +113,7 @@
     opacity: 0.7;
 }
 
-.popup-menu__profile-link {
+.menu-popup__profile-link {
     display: flex;
     cursor: pointer;
 }
@@ -139,7 +125,7 @@
     background: none;
     border: none;
     cursor: pointer;
-    background-image: url('../../../images/menu-popup__close-button.svg');
+    background-image: url('../../images/menu-popup__close-button.svg');
     background-repeat: no-repeat;
     width: 32px;
     height: 32px;
@@ -153,7 +139,7 @@
 }
 
 @media (max-width: 500px) {
-    .menu-popup__two-colunns {
+    .menu-popup__two-columns {
         width: 100%;
     }
 
@@ -170,7 +156,7 @@
         min-height: 20px;
     }
 
-    .menu-popup__two-columns_content_profile {
+    .menu-popup__two-columns-content_profile {
         margin-bottom: 46px;
     }
 }

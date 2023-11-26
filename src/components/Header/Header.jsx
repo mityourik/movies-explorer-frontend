@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import headerAccImg from '../../images/header__account-image.svg';
+import headerAccImgThemeWhite from '../../images/menu-popup__profile-icon.svg';
 import './Header.css';
 import { NavLink, useLocation } from 'react-router-dom';
 import Navigation from '../Navigation/Navigation';
 import Logo from '../Logo/Logo';
 import menuLogo from '../../images/header__menu-icon.svg';
 import menuLogoThemeWhite from '../../images/header__menu-icon_theme_white.svg';
-import MenuPopup from '../App/MenuPopup/MenuPopup';
+import MenuPopup from '../MenuPopup/MenuPopup';
 
 function Header () {
     const [isUserLoggedIn, setIsUserLoggedIn] = useState(true);
@@ -41,9 +42,9 @@ function Header () {
                     <div className='header__column header__column_content_account'>
                         <button className='header__button-account'>
                             <img
-                                className='header__account-img'
-                                src={headerAccImg}
-                                alt='Изображение профиля'
+                                className={isHomePage ? 'header__account-img' : 'header___account-img_theme-white'}
+                                src={isHomePage? headerAccImg : headerAccImgThemeWhite}
+                                alt='Изображение кнопки профиля'
                                 onClick={toggleUserLoggedIn}
                             />
                         </button>
