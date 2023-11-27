@@ -1,0 +1,8 @@
+.logo {
+    width: 38px;
+}
+
+.logo__nav-link {
+    cursor: pointer;
+    height: 38px;
+}

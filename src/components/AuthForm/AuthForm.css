@@ -1,0 +1,45 @@
+.auth-form__label {
+    color: #A0A0A0;
+    font-family: 'Inter', 'Arial', sans-serif;
+    font-size: 10px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.auth-form__input {
+    display: flex;
+    width: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    border-bottom: 1px solid #E8E8E8;
+    color: #000;
+    font-family: 'Inter', 'Arial', sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    padding: 5px 0 10px 0;
+}
+
+.auth-form__input.invalid {
+    color: #FF3055;
+}
+
+.auth-form__input:focus {
+    border-bottom: 1px solid #3456F3;
+}
+
+.auth-form__span {
+    color: #FF3055;
+    font-family: 'Inter', 'Arial', sans-serif;
+    font-size: 10px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 18px;
+    min-height: 18px;
+    height: 100%;
+    display: flex;
+    margin: 0;
+}

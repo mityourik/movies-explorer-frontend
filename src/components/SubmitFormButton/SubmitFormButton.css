@@ -1,0 +1,103 @@
+.submit-form-button__span-error {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 34px;
+    margin-top: 97px;
+    color: #FF004C;
+    text-align: center;
+    font-family: 'Inter', 'Arial', sans-serif;
+    font-size: 11px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.submit-form-button__span-error_signin {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 34px;
+    margin-top: 166px;
+    color: #FF004C;
+    text-align: center;
+    font-family: 'Inter', 'Arial', sans-serif;
+    font-size: 11px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.submit-form-button__button {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    color: #FFF;
+    text-align: center;
+    font-family: 'Inter', 'Arial', sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    border-radius: 3px;
+    background: #3456F3;
+    border: none;
+    min-height: 45px;
+    height: 100%;
+    cursor: pointer;
+    margin: 0;
+    transition: opacity 0.3s ease;
+    opacity: 1;
+    padding: 0;
+}
+
+.submit-form-button__button:hover {
+    opacity: 0.8;
+}
+
+.submit-form-button__button_invalid {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    color: #000;
+    text-align: center;
+    font-family: 'Inter', 'Arial', sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    border-radius: 3px;
+    background: #F8F8F8;;
+    border: none;
+    min-height: 45px;
+    height: 100%;
+    cursor: pointer;
+    margin: 0;
+    transition: opacity 0.3s ease;
+    opacity: 1;
+    padding: 0;
+}
+
+.submit-form-button__button_invalid:hover {
+    opacity: 0.7;
+}
+
+@media screen and (max-width: 500px) {
+    .submit-form-button__button {
+        margin: 0;
+        font-size: 12px;
+    }
+}
+
+@media screen and (max-width: 320px) {
+
+    .submit-form-button__span-error {
+        margin: 185px 0 0 0;
+    }
+
+    .submit-form-button__span-error_signin {
+        margin-top: 254px;
+    }
+}

@@ -1,0 +1,44 @@
+.register__container {
+    max-width: 396px;
+    width: 100%;
+    margin: 0 auto;
+    margin: 70px auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.register__logo {
+    display: flex;
+    width: 38px;
+}
+
+.register__title {
+    color: #000;
+    font-family: 'Inter', 'Arial', sans-serif;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    margin: 40px 0 35px 0;
+}
+
+@media screen and (max-width: 768px) {
+    .register__container {
+        margin: 232px auto;
+    }    
+}
+
+@media screen and (max-width: 500px) {
+    .register__container {
+        max-width: 260px;
+        margin: 56px auto 30px;
+    }
+
+    .register__logo {
+        margin: 0 auto;
+    }
+
+    .register__title {
+        margin: 49px auto 76px;
+    }
+}

@@ -1,0 +1,44 @@
+.login__container {
+    max-width: 396px;
+    width: 100%;
+    margin: 0 auto;
+    margin: 70px auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.login__logo {
+    display: flex;
+    width: 38px;
+}
+
+.login__title {
+    color: #000;
+    font-family: 'Inter', 'Arial', sans-serif;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    margin: 40px 0 35px 0;
+}
+
+@media screen and (max-width: 768px) {
+    .login__container {
+        margin: 232px auto;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .login__container {
+        max-width: 260px;
+        margin: 56px auto 30px;
+    }
+
+    .login__logo {
+        margin: 0 auto;
+    }
+
+    .login__title {
+        margin: 49px auto 76px;
+    }
+}
