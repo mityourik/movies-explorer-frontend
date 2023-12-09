@@ -3,7 +3,7 @@ import './Profile.css';
 import ProfileForm from '../ProfileForm/ProfileForm';
 import PropTypes from 'prop-types';
 
-function Profile ({ isPreloading, userName }) {
+function Profile ({ isPreloading, userName, signOut }) {
     const [isEditing, setIsEditing] = useState(false);
 
     return (
@@ -34,7 +34,7 @@ function Profile ({ isPreloading, userName }) {
                             </button>
                             <button
                                 className='profile__exit-button'
-                                onClick={() => console.log('Выход')}
+                                onClick={signOut}
                             >
                             Выйти из аккаунта
                             </button>
@@ -48,7 +48,8 @@ function Profile ({ isPreloading, userName }) {
 
 Profile.propTypes = {
     isPreloading: PropTypes.bool,
-    userName: PropTypes.string
+    userName: PropTypes.string,
+    signOut: PropTypes.func
 };
 
 export default Profile;

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Switch from '../Switch/Switch';
 import { useFormAndValidation } from '../../../hooks/UseFormAndValidation';
 
-function SearchForm({ children, onSort, onSubmit, onValidChange, isPreloading }) {
+function SearchForm({ onSubmit, onFilterChange, onValidChange, isPreloading }) {
     const [isSorted, setIsSorted] = useState(false);
     const { values, handleChange, errors, isValid } = useFormAndValidation();
     const buttonClass = `search-form__submit-button ${!isValid ? 'search-form__submit-button_invalid' : ''}`;
@@ -15,20 +15,17 @@ function SearchForm({ children, onSort, onSubmit, onValidChange, isPreloading })
         }
     }, [isValid, onValidChange]);
 
+    const handleSortClick = () => {
+        const newIsSorted = !isSorted;
+        setIsSorted(newIsSorted);
+        onFilterChange(newIsSorted);
+    };
+
     function handleSubmit(e) {
         e.preventDefault();
-        if (isValid) {
-            console.log('Sbmit from searchForm');
-            onSubmit(values);
-        }
-    }
-
-    const handleSortClick = () => {
-        setIsSorted(!isSorted);
-        if (onSort) {
-            onSort(!isSorted);
-        }
-    };
+        if (!isValid) return;
+        onSubmit({ ...values, isShortFilm: isSorted });
+    } 
 
     return (
         <section className='search-form'>
@@ -40,7 +37,7 @@ function SearchForm({ children, onSort, onSubmit, onValidChange, isPreloading })
                         type='text'
                         placeholder='Фильм'
                         name='movie'
-                        minLength='3'
+                        minLength='1'
                         maxLength='30'
                         value={values.movie || ''}
                         onChange={handleChange}
@@ -55,19 +52,20 @@ function SearchForm({ children, onSort, onSubmit, onValidChange, isPreloading })
                 <span className='search-form__span' id='movie-input-error'>
                     {errors.movie}
                 </span>
-                <Switch onSortClick={handleSortClick}/>
-                {children}
+                <Switch
+                    onSortClick={handleSortClick}
+                    isChecked={isSorted}
+                />
             </form>
         </section>
     );
 }
 
 SearchForm.propTypes = {
-    children: PropTypes.node,
-    onSort: PropTypes.func,
-    onSubmit: PropTypes.func,
+    onSubmit: PropTypes.func.isRequired,
+    onFilterChange: PropTypes.func,
     onValidChange: PropTypes.func,
-    isPreloading: PropTypes.bool,
+    isPreloading: PropTypes.bool
 };
 
 export default SearchForm;

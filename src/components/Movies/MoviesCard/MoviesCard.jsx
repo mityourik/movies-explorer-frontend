@@ -1,32 +1,38 @@
 import React, { useState } from 'react';
 import './MoviesCard.css';
 import PropTypes from 'prop-types';
+import { moviesApiUrl } from '../../../constants/constatnts';
 
 function MoviesCard({ movie, isSavedPage, onLike, onDelete }) {
-    const [isLiked, setIsLiked] = useState(false);
+
+    const isMovieSaved = () => {
+        const savedMovies = JSON.parse(localStorage.getItem('savedMovies')) || [];
+        return savedMovies.some(savedMovie => savedMovie.id === movie.id);
+    };
+
+    const [isLiked, setIsLiked] = useState(isMovieSaved());
+
+    const imageUrl = movie.image.formats ? moviesApiUrl + movie.image.url : movie.image;
 
     const handleLikeClick = () => {
         setIsLiked(!isLiked);
-        if (onLike) {
-            onLike(movie);
-        }
+        onLike(movie);
     };
 
     const handleDeleteClick = () => {
-        if (onDelete) {
-            onDelete(movie);
-        }
+        setIsLiked(false);
+        onDelete(movie);
     };
 
     return (
         <li className='movies-card'>
             <img
                 className='movies-card__image'
-                src={movie.image}
-                alt={`Заставка ролика ${movie.name}`}
+                src={imageUrl}
+                alt={`Заставка ролика ${movie.nameRU}`}
             />
             <div className='movies-card__group'>
-                <h2 className='movies-card__name'>{movie.name}</h2>
+                <h2 className='movies-card__name'>{movie.nameRU}</h2>
                 {isSavedPage ? (
                     <button
                         className='movies-card__button movies-card__button_delete'
@@ -41,17 +47,17 @@ function MoviesCard({ movie, isSavedPage, onLike, onDelete }) {
                     />
                 )}
             </div>
-            <p className='movies-card__duration'>{movie.time}</p>
+            <p className='movies-card__duration'>{`Длительность: ${movie.duration} мин.`}</p>
         </li>
     );
 }
 
 MoviesCard.propTypes = {
     movie: PropTypes.shape({
+        nameRU: PropTypes.string.isRequired,
         id: PropTypes.number.isRequired,
-        name: PropTypes.string.isRequired,
-        time: PropTypes.string.isRequired,
-        image: PropTypes.string.isRequired,
+        duration: PropTypes.number.isRequired,
+        image: PropTypes.object.isRequired,
     }).isRequired,
     isSavedPage: PropTypes.bool,
     onLike: PropTypes.func,

@@ -4,8 +4,13 @@ import PropTypes from 'prop-types';
 
 function Switch ({ onSortClick }) {
     return (
-        <label className='switch' onClick={onSortClick}>
-            <input className='switch__input' type='checkbox' id='filter-checkbox' />
+        <label className='switch'>
+            <input
+                className='switch__input'
+                type='checkbox'
+                id='filter-checkbox'
+                onChange={onSortClick}
+            />
             <span className='switch__slider' />
             <span className='switch__text'>Короткометражки</span>
         </label>

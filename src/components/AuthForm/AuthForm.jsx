@@ -27,22 +27,21 @@ function AuthForm({ children, isRegistration, onSubmit, onValidChange }) {
                     className='auth-form__label'>
             Имя
                     <input
-                        className={`auth-form__input ${errors.username ? 'invalid' : ''}`}
-                        id='auth-form-username'
+                        className={`auth-form__input ${errors.name ? 'invalid' : ''}`}
+                        id='auth-form-name'
                         type='text'
-                        name='username'
+                        name='name'
                         placeholder='Name'
-                        minLength='3'
                         maxLength='30'
-                        value={values.username || ''}
+                        value={values.name || ''}
                         onChange={handleChange}
                         required
                     />
                     <span 
                         className='auth-form__span' 
-                        id='auth-form-username-error'
+                        id='auth-form-name-error'
                     >
-                        {errors.username}
+                        {errors.name}
                     </span>
                 </label>
             )}

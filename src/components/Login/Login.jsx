@@ -6,7 +6,7 @@ import SubmitFormButton from '../SubmitFormButton/SubmitFormButton';
 import loginLogo from '../../images/header__logo.svg';
 import './Login.css';
 
-function Login({ onLogin, isPreloading }) {
+function Login({ onLogin, isPreloading, errorMessage }) {
     const [formIsValid, setFormIsValid] = useState(false);
 
     function handleValidChange(isValid) {
@@ -36,6 +36,7 @@ function Login({ onLogin, isPreloading }) {
                             buttonText='Войти'
                             isPreloading={isPreloading}
                             isFormValid={formIsValid}
+                            errorMessage={errorMessage}
                         />
                     </AuthForm>
                     <AuthNav
@@ -52,6 +53,7 @@ function Login({ onLogin, isPreloading }) {
 Login.propTypes = {
     onLogin: PropTypes.func,
     isPreloading: PropTypes.bool,
+    errorMessage: PropTypes.string
 };
 
 export default Login;
