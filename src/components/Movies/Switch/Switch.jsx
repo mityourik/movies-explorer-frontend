@@ -2,7 +2,7 @@ import React from 'react';
 import './Switch.css';
 import PropTypes from 'prop-types';
 
-function Switch ({ onSortClick }) {
+function Switch ({ onSortClick, isChecked }) {
     return (
         <label className='switch'>
             <input
@@ -10,6 +10,7 @@ function Switch ({ onSortClick }) {
                 type='checkbox'
                 id='filter-checkbox'
                 onChange={onSortClick}
+                checked={isChecked}
             />
             <span className='switch__slider' />
             <span className='switch__text'>Короткометражки</span>
@@ -19,6 +20,7 @@ function Switch ({ onSortClick }) {
 
 Switch.propTypes = {
     onSortClick: PropTypes.func.isRequired,
+    isChecked: PropTypes.bool.isRequired,
 };
 
 export default Switch;

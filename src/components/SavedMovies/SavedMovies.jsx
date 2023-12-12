@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import SearchForm from '../Movies/SearchForm/SearchForm';
+import { mainApi } from '../../utils/TempMainApi';
+import { LikesContext } from '../../contexts/LikesContext';
 
 const SHORT_FILM_DURATION = 40;
 
@@ -9,14 +11,29 @@ const SavedMovies = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [isShortFilmOnly, setIsShortFilmOnly] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
+    const { likedMovies, setLikedMovies } = useContext(LikesContext);
 
     useEffect(() => {
-        const loadedMovies = JSON.parse(localStorage.getItem('savedMovies')) || [];
-        setSavedMovies(loadedMovies);
+        const savedIsShortFilmOnly = sessionStorage.getItem('isShortFilmOnly');
+        if (savedIsShortFilmOnly !== null) {
+            setIsShortFilmOnly(savedIsShortFilmOnly === 'true');
+        }
+        setIsLoading(true);
+        mainApi.getSavedMovies()
+            .then(movies => {
+                setSavedMovies(movies);
+            })
+            .catch(error => {
+                console.error('Ошибка при загрузке сохраненных фильмов:', error);
+            })
+            .finally(() => {
+                setIsLoading(false);
+            });
     }, []);
 
     const handleFilterChange = (isSorted) => {
         setIsShortFilmOnly(isSorted);
+        sessionStorage.setItem('isShortFilmOnly', isSorted);
     };
 
     const handleSubmit = (searchQuery) => {
@@ -26,10 +43,17 @@ const SavedMovies = () => {
     };
 
     const onDelete = (movie) => {
-        const updatedSavedMovies = savedMovies.filter(savedMovie => savedMovie.id !== movie.id);
-        localStorage.setItem('savedMovies', JSON.stringify(updatedSavedMovies));
-        setSavedMovies(updatedSavedMovies);
-    };
+        mainApi.removeMovieLike(movie._id)
+            .then(() => {
+                const updatedSavedMovies = savedMovies.filter(savedMovie => savedMovie.movieId !== movie.movieId);
+                setSavedMovies(updatedSavedMovies);
+    
+                setLikedMovies((prevLikedMovies) => prevLikedMovies.filter(likedMovie => likedMovie.movieId !== movie.movieId));
+            })
+            .catch(error => {
+                console.error('Ошибка при удалении фильма:', error);
+            });
+    };       
 
     const filteredMovies = savedMovies.filter(movie => {
         return movie.nameRU.toLowerCase().includes(searchQuery) &&
@@ -42,10 +66,12 @@ const SavedMovies = () => {
                 onSubmit={handleSubmit}
                 onFilterChange={handleFilterChange}
                 isPreloading={isLoading}
+                isShortFilm={isShortFilmOnly}
             />
             <MoviesCardList
                 movies={filteredMovies}
                 onDelete={onDelete}
+                likedMovies={likedMovies}
             />
         </main>
     );

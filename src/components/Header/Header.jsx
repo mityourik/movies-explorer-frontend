@@ -37,13 +37,13 @@ function Header () {
                 )}
                 {loggedIn ? (
                     <div className='header__column header__column_content_account'>
-                        <button className='header__button-account'>
+                        <NavLink to='/profile' className='header__button-account'>
                             <img
                                 className={isHomePage ? 'header__account-img' : 'header___account-img_theme-white'}
                                 src={isHomePage? headerAccImg : headerAccImgThemeWhite}
                                 alt='Изображение кнопки профиля'
                             />
-                        </button>
+                        </NavLink>
                         <img
                             className='header__menu-icon'
                             src={isHomePage ? menuLogo : menuLogoThemeWhite}

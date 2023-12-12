@@ -8,7 +8,7 @@ import Profile from '../Profile/Profile';
 import Login from '../Login/Login';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import LayoutHeaderFooter from '../LayoutHeaderFooter/LayoutHeaderFooter';
-import { authorize, getContent, register } from '../../utils/Auth';
+import { getContent } from '../../utils/Auth';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import { LikesProvider } from '../../contexts/LikesContext';
@@ -16,8 +16,7 @@ import { LikesProvider } from '../../contexts/LikesContext';
 function App() {
     const [loggedIn, setLoggedIn] = useState(localStorage.getItem('jwt') ? true : false);
     const [currentUser, setCurrentUser] = useState(null);
-    const [isPreloading, setIsPreloading] = useState(false);
-    const navigate = useNavigate();
+    const navigate = useNavigate(); 
 
     useEffect(() => {
         getContent()
@@ -28,14 +27,6 @@ function App() {
                 console.log(err);
             });
     }, []);
-
-    function onRegister() {// Обработка успешной регистрации
-        console.log('Registered... ok');
-    }
-
-    function onError() {
-        console.log('register is unsuccesful');
-    }
 
     const checkToken = async () => {
         const token = localStorage.getItem('jwt');
@@ -55,44 +46,14 @@ function App() {
         checkToken();
     }, []);
 
-    function handleRegister(name, email, password) {
-        setIsPreloading(true);
-        register(name, email, password)
-            .then(() => {
-                navigate('/signin');
-                onRegister();
-            })
-            .catch(err => {
-                onError();
-                console.log(err);
-            })
-            .finally(() => setIsPreloading(false));
-    }
-
-    function handleLogin(password, email) {
-        setIsPreloading(true);
-        authorize(password, email)
-            .then(res => {
-                localStorage.setItem('jwt', res._id);
-                checkToken();
-                navigate('/');
-            })
-            .catch(err => {
-                onError();
-                console.log(err);
-            })
-            .finally(() => setIsPreloading(false));
-    }
-
     function signOut() {
         localStorage.removeItem('jwt');
-        localStorage.removeItem('searchQuery');
-        localStorage.removeItem('searchResults');
-        localStorage.removeItem('isShortFilm');
-    
+        sessionStorage.removeItem('searchQuery');
+        sessionStorage.removeItem('isShortFilm');
+        sessionStorage.removeItem('searchResults');
+        sessionStorage.removeItem('isShortFilmOnly');
         setLoggedIn(false);
-    
-        navigate('/signin');
+        navigate('/');
     }
     
 
@@ -125,15 +86,9 @@ function App() {
                         </LayoutHeaderFooter>} />
 
                     <Route path='/signup' element={
-                        <Register
-                            isPreloading={isPreloading}
-                            onRegister={handleRegister} />}
+                        <Register/>}
                     />
-                    <Route path='/signin' element={
-                        <Login
-                            onLogin={handleLogin}
-                            isPreloading={isPreloading} />}
-                    />
+                    <Route path='/signin' element={<Login />} />
 
                     <Route path='*' element={<NotFoundPage />} />
                     <Route

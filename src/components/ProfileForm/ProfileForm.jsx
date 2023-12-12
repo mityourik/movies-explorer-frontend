@@ -3,12 +3,21 @@ import PropTypes from 'prop-types';
 import './ProfileForm.css';
 import { useFormAndValidation } from '../../hooks/UseFormAndValidation';
 
-function ProfileForm ({ children, isEditing }) {
-    const { values, handleChange, errors } = useFormAndValidation();
+function ProfileForm ({ children, isEditing, initialName, initialEmail, onSubmit }) {
+    const { values, handleChange, errors, setValues } = useFormAndValidation({
+        username: initialName || '',
+        email: initialEmail || '',
+    });
 
     function handleSubmit(e) {
         e.preventDefault();
+        onSubmit(values);
     }
+
+    React.useEffect(() => {
+        setValues(v => ({ ...v, username: initialName || '', email: initialEmail || '' }));
+    }, [initialName, initialEmail]);
+    
 
     return (
         <form className='profile-form'
@@ -66,6 +75,8 @@ ProfileForm.propTypes = {
     children: PropTypes.node,
     onSubmit: PropTypes.func,
     isEditing: PropTypes.bool,
+    initialName: PropTypes.string,
+    initialEmail: PropTypes.string
 };
 
 export default ProfileForm;

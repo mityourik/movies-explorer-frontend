@@ -1,12 +1,15 @@
 // export const BASE_URL = "http://localhost:3000";
 export const BASE_URL = 'https://api.diploma.nomoredomainsmonster.ru';
 
-async function checkResponse(res) {// проверка ответа от сервера на ошибки
+async function checkResponse(res) {
     if (res.ok) {
         return res.json();
     }
-    const errorMessage = await res.text();//текст ошибки из ответа
-    throw new Error(`Ошибка: ${res.status} - ${errorMessage}`);
+    const errorMessage = await res.text();
+
+    const error = new Error(errorMessage);
+    error.status = res.status;
+    throw error;
 }
 
 export const register = async (name, email, password) => {//функция для регистрации
@@ -16,7 +19,7 @@ export const register = async (name, email, password) => {//функция дл�
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ name, email, password })
+        body: JSON.stringify(name, email, password)
     });
     return checkResponse(response); 
 };
@@ -28,7 +31,7 @@ export const authorize = async (password, email) => {//функция для а�
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ password, email })
+        body: JSON.stringify(password, email)
     });
     return checkResponse(response);
 };

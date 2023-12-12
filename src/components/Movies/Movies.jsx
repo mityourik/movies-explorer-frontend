@@ -1,17 +1,33 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import SearchForm from './SearchForm/SearchForm';
 import { moviesApi } from '../../utils/MoviesApi';
 import filterMovies from '../../utils/filterMovies';
 import Preloader from './Preloader/Preloader';
+import { mainApi } from '../../utils/TempMainApi';
+import { LikesContext } from '../../contexts/LikesContext';
 
 const Movies = () => {
     const [searchResults, setSearchResults] = useState([]);
+    const { likedMovies, setLikedMovies } = useContext(LikesContext);
     const [isLoading, setIsLoading] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const [isShortFilm, setIsShortFilm] = useState(false);
     const [hasSearched, setHasSearched] = useState(false);
     const [searchError, setSearchError] = useState('');
+
+    useEffect(() => {
+        const fetchLikedMovies = async () => {
+            try {
+                const likedMoviesFromServer = await mainApi.getSavedMovies();
+                setLikedMovies(likedMoviesFromServer);
+            } catch (error) {
+                console.error('Ошибка при получении лайкнутых фильмов:', error);
+            }
+        };
+    
+        fetchLikedMovies();
+    }, []);
 
     const handleSearchSubmit = async (query) => {
         setIsLoading(true);
@@ -21,73 +37,86 @@ const Movies = () => {
         setIsShortFilm(query.isShortFilm);
         try {
             const movies = await moviesApi.getInitialMovies();
-            const filteredMovies = filterMovies(movies, query.movie, query.isShortFilm);
+            const filteredMovies = filterMovies(movies, query.movie, isShortFilm);
             setSearchResults(filteredMovies);
+
+            sessionStorage.setItem('searchQuery', query.movie);
+            sessionStorage.setItem('isShortFilm', isShortFilm);
+            sessionStorage.setItem('searchResults', JSON.stringify(filteredMovies));
+
         } catch (error) {
             console.error(error);
-            setSearchError('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз.');
+            setSearchError('Во время запроса произошла ошибка.');
         } finally {
             setIsLoading(false);
         }
     };
 
+    const onLike = async (movie) => {
+        try {
+            const movieData = {
+                country: movie.country,
+                director: movie.director,
+                duration: movie.duration,
+                year: movie.year,
+                description: movie.description,
+                image: `https://api.nomoreparties.co${movie.image.url}`,
+                trailerLink: movie.trailerLink,
+                thumbnail: `https://api.nomoreparties.co${movie.image.formats.thumbnail.url}`,
+                movieId: movie.id.toString(),
+                nameRU: movie.nameRU,
+                nameEN: movie.nameEN,
+            };
+            const savedMovie = await mainApi.addMovieLike(movieData);
+            setLikedMovies([...likedMovies, savedMovie]);
+        } catch (error) {
+            console.error('Ошибка при лайке фильма:', error);
+        }
+    };
+
     useEffect(() => {
-        const savedSearchQuery = localStorage.getItem('searchQuery');
-        const savedIsShortFilm = localStorage.getItem('isShortFilm') === 'true';
-        const savedSearchResults = JSON.parse(localStorage.getItem('searchResults'));
+        const savedSearchQuery = sessionStorage.getItem('searchQuery');
+        const savedIsShortFilm = sessionStorage.getItem('isShortFilm') === 'true';
     
         if (savedSearchQuery !== null) {
             setSearchQuery(savedSearchQuery);
+        }
+    
+        if (savedIsShortFilm !== null) {
             setIsShortFilm(savedIsShortFilm);
-            if (savedSearchResults) {
-                setSearchResults(savedSearchResults);
-                setHasSearched(true);
-            }
+        }
+    
+        const savedSearchResults = JSON.parse(sessionStorage.getItem('searchResults'));
+        if (savedSearchResults) {
+            setSearchResults(savedSearchResults);
+            setHasSearched(true);
         }
     }, []);    
-
-    useEffect(() => {
-        if (searchQuery) {
-            const refilterMovies = async () => {
-                setIsLoading(true);
-                try {
-                    const movies = await moviesApi.getInitialMovies();
-                    const filteredMovies = filterMovies(movies, searchQuery, isShortFilm);
-                    setSearchResults(filteredMovies);
-                } catch (error) {
-                    console.error(error);
-                } finally {
-                    setIsLoading(false);
-                }
-            };
-
-            refilterMovies();
-        }
-    }, [searchQuery, isShortFilm]);
-
-    const onLike = (movie) => {
-        let savedMovies = JSON.parse(localStorage.getItem('savedMovies')) || [];
-        const isMovieSaved = savedMovies.some(savedMovie => savedMovie.id === movie.id);
     
-        if (isMovieSaved) {
-            savedMovies = savedMovies.filter(savedMovie => savedMovie.id !== movie.id);
+
+    function findSavedMovieById(savedMovies, movieId) {
+        const foundMovie = savedMovies.find(movie => movie.movieId.toString() === movieId.toString());
+        return foundMovie ? foundMovie._id : null;
+    }
+    
+    const onDelete = async (movie) => {
+        const savedMovieId = findSavedMovieById(likedMovies, movie.id);
+        if (savedMovieId) {
+            try {
+                await mainApi.removeMovieLike(savedMovieId);
+                setLikedMovies(prevLikedMovies => prevLikedMovies.filter(likedMovie => likedMovie._id !== savedMovieId));
+            } catch (error) {
+                console.error('Ошибка при удалении фильма:', error);
+            }
         } else {
-            savedMovies.push(movie);
+            console.error('Фильм для удаления не найден');
         }
-    
-        localStorage.setItem('savedMovies', JSON.stringify(savedMovies));
-    };
-    
-    const onDelete = (movie) => {
-        let savedMovies = JSON.parse(localStorage.getItem('savedMovies')) || [];
-        savedMovies = savedMovies.filter(savedMovie => savedMovie.id !== movie.id);
-        localStorage.setItem('savedMovies', JSON.stringify(savedMovies));
-    };
+    };    
 
     const handleFilterChange = (isSorted) => {
         setIsShortFilm(isSorted);
     };
-    
+
     return (
         <main className='main'>
             <SearchForm
@@ -95,6 +124,7 @@ const Movies = () => {
                 isPreloading={isLoading}
                 defaultValue={searchQuery}
                 onFilterChange={handleFilterChange}
+                isShortFilm={isShortFilm}
             />
             {isLoading && <Preloader />}
             {!isLoading && hasSearched && searchResults.length === 0 && !searchError && <p className='search-form__error'>Ничего не найдено</p>}
@@ -104,6 +134,7 @@ const Movies = () => {
                     movies={searchResults}
                     onLike={onLike}
                     onDelete={onDelete}
+                    likedMovies={likedMovies}
                 />
             )}
             {!isLoading && !hasSearched &&

@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import Switch from '../Switch/Switch';
 import { useFormAndValidation } from '../../../hooks/UseFormAndValidation';
 
-function SearchForm({ onSubmit, onFilterChange, onValidChange, isPreloading }) {
+function SearchForm({ onSubmit, onFilterChange, onValidChange, isPreloading, defaultValue, isShortFilm }) {
     const [isSorted, setIsSorted] = useState(false);
-    const { values, handleChange, errors, isValid } = useFormAndValidation();
+    const { values, handleChange, errors, isValid, setValues } = useFormAndValidation();
     const buttonClass = `search-form__submit-button ${!isValid ? 'search-form__submit-button_invalid' : ''}`;
 
     useEffect(() => {
@@ -14,6 +14,11 @@ function SearchForm({ onSubmit, onFilterChange, onValidChange, isPreloading }) {
             onValidChange(isValid);
         }
     }, [isValid, onValidChange]);
+
+    useEffect(() => {
+        setValues({ movie: defaultValue || '' });
+        setIsSorted(isShortFilm);
+    }, [defaultValue, isShortFilm, setValues]);
 
     const handleSortClick = () => {
         const newIsSorted = !isSorted;
@@ -65,7 +70,9 @@ SearchForm.propTypes = {
     onSubmit: PropTypes.func.isRequired,
     onFilterChange: PropTypes.func,
     onValidChange: PropTypes.func,
-    isPreloading: PropTypes.bool
+    isPreloading: PropTypes.bool,
+    defaultValue: PropTypes.string,
+    isShortFilm: PropTypes.bool
 };
 
 export default SearchForm;

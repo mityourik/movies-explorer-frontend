@@ -3,21 +3,26 @@ import './MoviesCard.css';
 import PropTypes from 'prop-types';
 import { moviesApiUrl } from '../../../constants/constatnts';
 
-function MoviesCard({ movie, isSavedPage, onLike, onDelete }) {
+function MoviesCard({ movie, isSavedPage, onLike, onDelete, likedMovies }) {
 
-    const isMovieSaved = () => {
-        const savedMovies = JSON.parse(localStorage.getItem('savedMovies')) || [];
-        return savedMovies.some(savedMovie => savedMovie.id === movie.id);
-    };
+    const isMovieLiked = likedMovies && likedMovies.some(likedMovie => likedMovie.movieId === movie.id);
 
-    const [isLiked, setIsLiked] = useState(isMovieSaved());
+    const [isLiked, setIsLiked] = useState(isMovieLiked);
 
-    const imageUrl = movie.image.formats ? moviesApiUrl + movie.image.url : movie.image;
+    const imageUrl = typeof movie.image === 'string' 
+        ? movie.image 
+        : moviesApiUrl + movie.image.url;
 
     const handleLikeClick = () => {
+        if (isLiked) {
+            if (!isSavedPage && onDelete) {
+                onDelete(movie);
+            }
+        } else {
+            onLike(movie);
+        }
         setIsLiked(!isLiked);
-        onLike(movie);
-    };
+    };       
 
     const handleDeleteClick = () => {
         setIsLiked(false);
@@ -26,11 +31,13 @@ function MoviesCard({ movie, isSavedPage, onLike, onDelete }) {
 
     return (
         <li className='movies-card'>
-            <img
-                className='movies-card__image'
-                src={imageUrl}
-                alt={`Заставка ролика ${movie.nameRU}`}
-            />
+            <a className='movies-card__movie-link' href={movie.trailerLink} target='_blank' rel='noreferrer'>
+                <img
+                    className='movies-card__image'
+                    src={imageUrl}
+                    alt={`Заставка ролика ${movie.nameRU}`}
+                />
+            </a>
             <div className='movies-card__group'>
                 <h2 className='movies-card__name'>{movie.nameRU}</h2>
                 {isSavedPage ? (
@@ -55,13 +62,15 @@ function MoviesCard({ movie, isSavedPage, onLike, onDelete }) {
 MoviesCard.propTypes = {
     movie: PropTypes.shape({
         nameRU: PropTypes.string.isRequired,
-        id: PropTypes.number.isRequired,
+        id: PropTypes.number,
         duration: PropTypes.number.isRequired,
-        image: PropTypes.object.isRequired,
+        image: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
+        trailerLink: PropTypes.string.isRequired,
     }).isRequired,
     isSavedPage: PropTypes.bool,
     onLike: PropTypes.func,
     onDelete: PropTypes.func,
+    likedMovies: PropTypes.array,
 };
 
 export default MoviesCard;

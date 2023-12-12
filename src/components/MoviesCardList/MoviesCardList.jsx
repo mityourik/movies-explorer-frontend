@@ -4,7 +4,7 @@ import MoviesCard from '../Movies/MoviesCard/MoviesCard';
 import { useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-const MoviesCardList = ({ movies, onLike, onDelete }) => {
+const MoviesCardList = ({ movies, onLike, onDelete, likedMovies }) => {
     const location = useLocation();
     const isSavedMoviesPage = location.pathname === '/saved-movies';
     
@@ -47,11 +47,15 @@ const MoviesCardList = ({ movies, onLike, onDelete }) => {
             <ul className='movies__container'>
                 {visibleMovies.map((movie) => (
                     <MoviesCard
-                        key={movie.id}
+                        key={isSavedMoviesPage ? movie._id : movie.id}
                         movie={movie}
                         isSavedPage={isSavedMoviesPage}
                         onLike={isSavedMoviesPage ? null : onLike}
-                        onDelete={isSavedMoviesPage ? onDelete : null}
+                        onDelete={isSavedMoviesPage ? null : onDelete}
+                        isLiked={likedMovies && (isSavedMoviesPage 
+                            ? likedMovies.some(likedMovie => likedMovie._id === movie._id)
+                            : likedMovies.some(likedMovie => likedMovie.movieId === movie.id.toString()))}
+                        likedMovies={likedMovies}
                     />
                 ))}
             </ul>
@@ -72,7 +76,8 @@ const MoviesCardList = ({ movies, onLike, onDelete }) => {
 MoviesCardList.propTypes = {
     movies: PropTypes.arrayOf(PropTypes.object).isRequired,
     onLike: PropTypes.func,
-    onDelete: PropTypes.func.isRequired
+    onDelete: PropTypes.func.isRequired,
+    likedMovies: PropTypes.array
 };
 
 export default MoviesCardList;
