@@ -42,7 +42,7 @@ const SavedMovies = () => {
         setIsLoading(false);
     };
 
-    const onDelete = (movie) => {
+    const handleDelete = (movie) => {
         mainApi.removeMovieLike(movie._id)
             .then(() => {
                 const updatedSavedMovies = savedMovies.filter(savedMovie => savedMovie.movieId !== movie.movieId);
@@ -70,7 +70,7 @@ const SavedMovies = () => {
             />
             <MoviesCardList
                 movies={filteredMovies}
-                onDelete={onDelete}
+                onDelete={handleDelete}
                 likedMovies={likedMovies}
             />
         </main>

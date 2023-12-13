@@ -1,43 +1,14 @@
-import React, { useContext, useState } from 'react';
+import React from 'react';
 import './Profile.css';
 import ProfileForm from '../ProfileForm/ProfileForm';
 import PropTypes from 'prop-types';
-import { CurrentUserContext } from '../../contexts/CurrentUserContext';
-import { mainApi } from '../../utils/TempMainApi';
 import Preloader from '../Movies/Preloader/Preloader';
-import { profileErrors } from '../../constants/constatnts';
 
-function Profile ({ isPreloading, signOut }) {
-    const [isEditing, setIsEditing] = useState(false);
-    const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
-    const [serverError, setServerError] = useState('');
+function Profile ({ signOut, onSubmit, isEditing, serverError, currentUser, isPreloading, setIsEditing }) {
 
     if (!currentUser) {
         return <Preloader />;
     }
-
-    const handleUpdateUser = (updatedValues) => {
-        mainApi.updateUser({
-            name: updatedValues.username,
-            email: updatedValues.email
-        })
-            .then((updatedUser) => {
-                setCurrentUser(updatedUser);
-                setIsEditing(false);
-            })
-            .catch((error) => {
-                console.error(error);
-    
-                let errorMessage = 'При обновлении профиля произошла ошибка.';
-                const status = error.response?.status || 500; // вынести в утилсы
-    
-                if (profileErrors[status]) {
-                    errorMessage = profileErrors[status];
-                }
-    
-                setServerError(errorMessage);
-            });
-    };
 
     return (
         <main className='main'>
@@ -47,7 +18,7 @@ function Profile ({ isPreloading, signOut }) {
                     isEditing={isEditing}
                     initialName={currentUser.name}
                     initialEmail={currentUser.email}
-                    onSubmit={handleUpdateUser}
+                    onSubmit={onSubmit}
                 >
                     {isEditing ? (
                         <>
@@ -82,9 +53,16 @@ function Profile ({ isPreloading, signOut }) {
 }
 
 Profile.propTypes = {
-    isPreloading: PropTypes.bool,
-    userName: PropTypes.string,
-    signOut: PropTypes.func
+    signOut: PropTypes.func,
+    onSubmit: PropTypes.func,
+    isEditing: PropTypes.bool,
+    setIsEditing: PropTypes.func,
+    serverError: PropTypes.string,
+    currentUser: PropTypes.shape({
+        name: PropTypes.string,
+        email: PropTypes.string,
+    }),
+    isPreloading: PropTypes.bool
 };
 
 export default Profile;

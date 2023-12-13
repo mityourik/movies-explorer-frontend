@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Navigate } from 'react-router-dom';
 
 const ProtectedRoute = ({ element, loggedIn }) => {
-    return loggedIn ? element : <Navigate to='/movies' replace />;
+    return loggedIn ? element : <Navigate to='/' replace />;
 };
 
 ProtectedRoute.propTypes = {
