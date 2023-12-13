@@ -1,10 +1,12 @@
-const filterMovies = (movies, query, isShortFilm) => {
-    const SHORT_FILM_DURATION = 40;
+const filterMovies2 = (movies, query, isShortFilm) => {
+    const queryLower = query ? query.toLowerCase() : '';
     return movies.filter(movie => {
-        const matchesQuery = movie.nameRU.toLowerCase().includes(query.toLowerCase());
-        const isShort = movie.duration <= SHORT_FILM_DURATION;
-        return matchesQuery && (isShortFilm ? isShort : true);
+        const matchesQuery = queryLower
+            ? movie.nameRU.toLowerCase().includes(queryLower) || movie.nameEN.toLowerCase().includes(queryLower)
+            : true;
+        const isShort = isShortFilm ? movie.duration <= 40 : true;
+        return matchesQuery && isShort;
     });
 };
 
-export default filterMovies;
+export default filterMovies2;

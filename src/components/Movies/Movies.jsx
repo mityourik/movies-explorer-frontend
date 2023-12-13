@@ -15,6 +15,7 @@ const Movies = () => {
     const [isShortFilm, setIsShortFilm] = useState(false);
     const [hasSearched, setHasSearched] = useState(false);
     const [searchError, setSearchError] = useState('');
+    const [originalMovies, setOriginalMovies] = useState([]);
 
     useEffect(() => {
         const fetchLikedMovies = async () => {
@@ -37,13 +38,13 @@ const Movies = () => {
         setIsShortFilm(query.isShortFilm);
         try {
             const movies = await moviesApi.getInitialMovies();
-            const filteredMovies = filterMovies(movies, query.movie, isShortFilm);
+            setOriginalMovies(movies);
+            const filteredMovies = filterMovies(movies, query.movie, query.isShortFilm);
             setSearchResults(filteredMovies);
 
             sessionStorage.setItem('searchQuery', query.movie);
-            sessionStorage.setItem('isShortFilm', isShortFilm);
+            sessionStorage.setItem('isShortFilm', query.isShortFilm);
             sessionStorage.setItem('searchResults', JSON.stringify(filteredMovies));
-
         } catch (error) {
             console.error(error);
             setSearchError('Во время запроса произошла ошибка.');
@@ -80,16 +81,14 @@ const Movies = () => {
     
         if (savedSearchQuery !== null) {
             setSearchQuery(savedSearchQuery);
-        }
-    
-        if (savedIsShortFilm !== null) {
             setIsShortFilm(savedIsShortFilm);
-        }
-    
-        const savedSearchResults = JSON.parse(sessionStorage.getItem('searchResults'));
-        if (savedSearchResults) {
-            setSearchResults(savedSearchResults);
-            setHasSearched(true);
+            const savedSearchResults = JSON.parse(sessionStorage.getItem('searchResults'));
+            if (savedSearchResults) {
+                setOriginalMovies(savedSearchResults); // Сохраняем исходный список фильмов из sessionStorage
+                const reFilteredMovies = filterMovies(savedSearchResults, savedSearchQuery, savedIsShortFilm);
+                setSearchResults(reFilteredMovies);
+                setHasSearched(true);
+            }
         }
     }, []);    
     
@@ -115,6 +114,8 @@ const Movies = () => {
 
     const handleFilterChange = (isSorted) => {
         setIsShortFilm(isSorted);
+        const reFilteredMovies = filterMovies(originalMovies, searchQuery, isSorted);
+        setSearchResults(reFilteredMovies);
     };
 
     return (
