@@ -50,8 +50,8 @@ const MoviesCardList = ({ movies, onLike, onDelete, likedMovies }) => {
                         key={isSavedMoviesPage ? movie._id : movie.id}
                         movie={movie}
                         isSavedPage={isSavedMoviesPage}
-                        onLike={isSavedMoviesPage ? null : onLike}
-                        onDelete={isSavedMoviesPage ? onDelete : null}
+                        onLike={onLike}
+                        onDelete={onDelete}
                         isLiked={likedMovies && (isSavedMoviesPage 
                             ? likedMovies.some(likedMovie => likedMovie._id === movie._id)
                             : likedMovies.some(likedMovie => likedMovie.movieId === movie.id.toString()))}

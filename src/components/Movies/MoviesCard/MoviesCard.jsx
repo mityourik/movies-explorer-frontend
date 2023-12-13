@@ -1,33 +1,41 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './MoviesCard.css';
 import PropTypes from 'prop-types';
 import { moviesApiUrl } from '../../../constants/constatnts';
 
 function MoviesCard({ movie, isSavedPage, onLike, onDelete, likedMovies }) {
-
     const isMovieLiked = likedMovies && likedMovies.some(likedMovie => likedMovie.movieId === movie.id);
 
     const [isLiked, setIsLiked] = useState(isMovieLiked);
+
+    useEffect(() => {
+        setIsLiked(likedMovies.some(likedMovie => likedMovie.movieId === movie.id));
+    }, [likedMovies, movie.id]);
 
     const imageUrl = typeof movie.image === 'string' 
         ? movie.image 
         : moviesApiUrl + movie.image.url;
 
-    const handleLikeClick = () => {
+    const handleLikeClick = () => {        
         if (isLiked) {
-            if (!isSavedPage && onDelete) {
+            if (!isSavedPage) {
                 onDelete(movie);
             }
         } else {
-            onLike(movie);
+            if (onLike) {
+                onLike(movie);
+            }
         }
         setIsLiked(!isLiked);
-    };       
-
+    };
+        
     const handleDeleteClick = () => {
         setIsLiked(false);
-        onDelete(movie);
+        if (isSavedPage) {
+            onDelete(movie);
+        }
     };
+        
 
     return (
         <li className='movies-card'>
