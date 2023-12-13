@@ -52,7 +52,7 @@ class MainApi {
 }
 
 export const mainApi = new MainApi({
-    baseUrl: 'https://api.diploma.nomoredomainsmonster.ru',
+    baseUrl: 'https://api.sha.nomoredomainsmonster.ru',
     headers: {
         'Content-Type': 'application/json',
     },

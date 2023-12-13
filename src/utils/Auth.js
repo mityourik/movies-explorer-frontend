@@ -1,5 +1,5 @@
 // export const BASE_URL = "http://localhost:3000";
-export const BASE_URL = 'https://api.diploma.nomoredomainsmonster.ru';
+export const BASE_URL = 'https://api.sha.nomoredomainsmonster.ru';
 
 async function checkResponse(res) {
     if (res.ok) {
