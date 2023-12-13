@@ -104,6 +104,34 @@
     opacity: 0.8;    
 }
 
+.profile__submit-button_disabled {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    color: #C2C2C2;
+    text-align: center;
+    font-family: 'Inter', 'Arial', sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    border-radius: 3px;
+    background: #F8F8F8;
+    border: none;
+    min-height: 45px;
+    height: 100%;
+    cursor: pointer;
+    margin: 0;
+    transition: opacity 0.5s ease;
+    opacity: 1;
+    padding: 0;
+}
+
+.profile__submit-button_disabled:hover {
+    opacity: 0.7;
+}
+
 @media screen and (max-width: 768px) {
     .profile {
         margin: 235px auto 269px;

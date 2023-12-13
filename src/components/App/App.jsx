@@ -24,7 +24,7 @@ function App() {
 
     const [isInfoTooltipPopupOpen, setIsInfoTooltipPopupOpen] = useState(false);
     const [tooltipTitle, setTooltipTitle] = useState('');
-    const [tooltipIcon, setTooltipIcon] = useState('');
+    const [tooltipIcon, setTooltipIcon] = useState('success');
 
     const [isEditing, setIsEditing] = useState(false);
 
@@ -167,10 +167,19 @@ function App() {
                                 />
                             } 
                         />
-                        <Route path='/saved-movies' element={
-                            <LayoutHeaderFooter>
-                                <SavedMovies />
-                            </LayoutHeaderFooter>} />
+                        <Route 
+                            path='/saved-movies' 
+                            element={
+                                <ProtectedRoute 
+                                    loggedIn={loggedIn} 
+                                    element={
+                                        <LayoutHeaderFooter>
+                                            <SavedMovies />
+                                        </LayoutHeaderFooter>
+                                    }
+                                />
+                            }
+                        />
                         <Route 
                             path='/profile' 
                             element={

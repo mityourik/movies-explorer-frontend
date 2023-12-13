@@ -1,13 +1,28 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './Profile.css';
 import ProfileForm from '../ProfileForm/ProfileForm';
 import PropTypes from 'prop-types';
 import Preloader from '../Movies/Preloader/Preloader';
+import { useFormAndValidation } from '../../hooks/UseFormAndValidation';
 
-function Profile ({ signOut, onSubmit, isEditing, serverError, currentUser, isPreloading, setIsEditing }) {
+function Profile({ signOut, onSubmit, isEditing, serverError, currentUser, isPreloading, setIsEditing }) {
+    const { values, handleChange, errors, isValid, setValues } = useFormAndValidation();
+
+    useEffect(() => {
+        if (currentUser) {
+            setValues({ username: currentUser.name, email: currentUser.email });
+        }
+    }, [currentUser, setValues]);
+
+    const isDataChanged = values.username !== currentUser?.name || values.email !== currentUser?.email;
+    const buttonClass = `profile__submit-button ${!isDataChanged || isPreloading || !isValid ? 'profile__submit-button_disabled' : ''}`;
 
     if (!currentUser) {
         return <Preloader />;
+    }
+
+    function handleSubmit(values) {
+        onSubmit(values);
     }
 
     return (
@@ -18,31 +33,36 @@ function Profile ({ signOut, onSubmit, isEditing, serverError, currentUser, isPr
                     isEditing={isEditing}
                     initialName={currentUser.name}
                     initialEmail={currentUser.email}
-                    onSubmit={onSubmit}
+                    onSubmit={handleSubmit}
+                    handleChange={handleChange}
+                    errors={errors}
+                    values={values}
                 >
-                    {isEditing ? (
+                    {isEditing && (
                         <>
                             <span className='profile__span-error'>{serverError}</span>
                             <button
-                                className='profile__submit-button'
+                                className={buttonClass}
                                 type='submit'
+                                disabled={!isDataChanged || isPreloading || !isValid}
                             >
                                 {isPreloading ? 'Загрузка...' : 'Сохранить'}
                             </button>
                         </>
-                    ) : (
+                    )}
+                    {!isEditing && (
                         <>
                             <button
                                 className='profile__edit-button'
                                 onClick={() => setIsEditing(true)}
                             >
-                            Редактировать
+                                Редактировать
                             </button>
                             <button
                                 className='profile__exit-button'
                                 onClick={signOut}
                             >
-                            Выйти из аккаунта
+                                Выйти из аккаунта
                             </button>
                         </>
                     )}
