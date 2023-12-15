@@ -77,6 +77,7 @@ function App() {
 
     function onLogin() {
         setLoggedIn(true);
+        checkToken();
         navigate('/movies');
     }
 
@@ -106,6 +107,7 @@ function App() {
         setTooltipIcon('success');
         setIsInfoTooltipPopupOpen(true);
         setLoggedIn(true);
+        checkToken();
         navigate('/movies');
     }
 
