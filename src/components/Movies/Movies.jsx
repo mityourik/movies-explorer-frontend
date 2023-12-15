@@ -3,9 +3,9 @@ import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import SearchForm from './SearchForm/SearchForm';
 import { moviesApi } from '../../utils/MoviesApi';
 import filterMovies from '../../utils/filterMovies';
-import Preloader from './Preloader/Preloader';
 import { mainApi } from '../../utils/TempMainApi';
 import { LikesContext } from '../../contexts/LikesContext';
+import Preloader from '../Preloader/Preloader';
 
 const Movies = () => {
     const [searchResults, setSearchResults] = useState([]);

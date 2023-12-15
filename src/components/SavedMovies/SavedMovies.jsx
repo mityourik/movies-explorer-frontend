@@ -4,7 +4,7 @@ import SearchForm from '../Movies/SearchForm/SearchForm';
 import { mainApi } from '../../utils/TempMainApi';
 import { LikesContext } from '../../contexts/LikesContext';
 import filterMovies from '../../utils/filterMovies';
-import Preloader from '../Movies/Preloader/Preloader';
+import Preloader from '../Preloader/Preloader';
 
 const SavedMovies = () => {
     const [savedMovies, setSavedMovies] = useState([]);

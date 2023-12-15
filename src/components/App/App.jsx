@@ -15,7 +15,7 @@ import { LikesProvider } from '../../contexts/LikesContext';
 import InfoTooltip from '../InfoTooltip/InfoTooltip';
 import { loginErrors, profileErrors, registerErrors } from '../../constants/constatnts';
 import { mainApi } from '../../utils/TempMainApi';
-import Preloader from '../Movies/Preloader/Preloader';
+import Preloader from '../Preloader/Preloader';
 
 function App() {
     const [loggedIn, setLoggedIn] = useState(false);
@@ -75,10 +75,6 @@ function App() {
     useEffect(() => {
         checkToken().finally(() => setIsPreloading(false));
     }, []);
-
-    if (isPreloading) {
-        return <Preloader />;
-    }
 
     function onLogin() {
         setLoggedIn(true);
@@ -175,6 +171,7 @@ function App() {
     return (
         <CurrentUserContext.Provider value={{ currentUser, loggedIn, setCurrentUser, setLoggedIn }}>
             <div className='page'>
+                {isPreloading && <Preloader />}
                 <LikesProvider>
                     <Routes>
                         <Route path='/' element={<LayoutHeaderFooter><Landing /></LayoutHeaderFooter>} />
@@ -182,7 +179,8 @@ function App() {
                             path='/movies' 
                             element={
                                 <ProtectedRoute 
-                                    loggedIn={loggedIn} 
+                                    loggedIn={loggedIn}
+                                    isLoading={isPreloading}
                                     element={
                                         <LayoutHeaderFooter>
                                             <Movies />
@@ -194,7 +192,8 @@ function App() {
                             path='/saved-movies' 
                             element={
                                 <ProtectedRoute 
-                                    loggedIn={loggedIn} 
+                                    loggedIn={loggedIn}
+                                    isLoading={isPreloading}
                                     element={
                                         <LayoutHeaderFooter>
                                             <SavedMovies />
@@ -207,7 +206,8 @@ function App() {
                             path='/profile' 
                             element={
                                 <ProtectedRoute 
-                                    loggedIn={loggedIn} 
+                                    loggedIn={loggedIn}
+                                    isLoading={isPreloading}
                                     element={
                                         <LayoutHeaderFooter>
                                             <Profile

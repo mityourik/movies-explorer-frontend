@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import './Profile.css';
 import ProfileForm from '../ProfileForm/ProfileForm';
 import PropTypes from 'prop-types';
-import Preloader from '../Movies/Preloader/Preloader';
+import Preloader from '../Preloader/Preloader';
 import { useFormAndValidation } from '../../hooks/UseFormAndValidation';
 
 function Profile({ signOut, onSubmit, isEditing, serverError, currentUser, isPreloading, setIsEditing }) {
