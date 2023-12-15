@@ -15,11 +15,12 @@ import { LikesProvider } from '../../contexts/LikesContext';
 import InfoTooltip from '../InfoTooltip/InfoTooltip';
 import { loginErrors, profileErrors, registerErrors } from '../../constants/constatnts';
 import { mainApi } from '../../utils/TempMainApi';
+import Preloader from '../Movies/Preloader/Preloader';
 
 function App() {
     const [loggedIn, setLoggedIn] = useState(false);
     const [currentUser, setCurrentUser] = useState(null);
-    const [isPreloading, setIsPreloading] = useState(false);
+    const [isPreloading, setIsPreloading] = useState(true);
     const [serverError, setServerError] = useState('');
 
     const [isInfoTooltipPopupOpen, setIsInfoTooltipPopupOpen] = useState(false);
@@ -72,8 +73,12 @@ function App() {
     };    
 
     useEffect(() => {
-        checkToken();
+        checkToken().finally(() => setIsPreloading(false));
     }, []);
+
+    if (isPreloading) {
+        return <Preloader />;
+    }
 
     function onLogin() {
         setLoggedIn(true);

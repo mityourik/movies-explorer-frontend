@@ -36,7 +36,7 @@ export const authorize = async (password, email) => {//функция для а�
     return checkResponse(response);
 };
 
-export const getContent = async () => {//функция для получения контента пользователя <-----убрал token из аргумента
+export const getContent = async () => {
     const response = await fetch(`${BASE_URL}/users/me`, {
         method: 'GET',
         credentials: 'include',
