@@ -46,3 +46,12 @@ export const getContent = async () => {//функция для получени�
     });
     return checkResponse(response);
 };
+
+export const signOut = async () => {
+    const response = await fetch(`${BASE_URL}/signout`, {
+        method: 'GET',
+        credentials: 'include'
+    });
+    return checkResponse(response); 
+};
+  

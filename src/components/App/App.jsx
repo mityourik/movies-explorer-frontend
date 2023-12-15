@@ -8,12 +8,12 @@ import Profile from '../Profile/Profile';
 import Login from '../Login/Login';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import LayoutHeaderFooter from '../LayoutHeaderFooter/LayoutHeaderFooter';
-import { getContent, register } from '../../utils/Auth';
+import { authorize, getContent, register } from '../../utils/Auth';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import { LikesProvider } from '../../contexts/LikesContext';
 import InfoTooltip from '../InfoTooltip/InfoTooltip';
-import { profileErrors, registerErrors } from '../../constants/constatnts';
+import { loginErrors, profileErrors, registerErrors } from '../../constants/constatnts';
 import { mainApi } from '../../utils/TempMainApi';
 
 function App() {
@@ -37,7 +37,7 @@ function App() {
     useEffect(() => {
         const handleEscClose = (e) => {
             if (e.key === 'Escape' && popupToClose) {
-                closeAllPopups();
+                closePopup();
             }
         };
       
@@ -50,18 +50,9 @@ function App() {
         };
     }, [popupToClose]);
 
-    const closeAllPopups = () => {
-        setIsInfoTooltipPopupOpen(false);
-    };
-
     const closePopup = () => {
         setIsInfoTooltipPopupOpen(false);
     };
-
-    useEffect(() => {
-        checkToken();
-    }, []);
-    
 
     const checkToken = async () => {
         const token = localStorage.getItem('jwt');
@@ -71,49 +62,68 @@ function App() {
                 setCurrentUser(userData);
                 setLoggedIn(true);
             } catch (err) {
-                console.log(err);
+                console.log('Ошибка при получении данных пользователя:', err);
                 localStorage.removeItem('jwt');
                 setLoggedIn(false);
             }
+        } else {
+            setLoggedIn(false);
         }
     };    
 
+    useEffect(() => {
+        checkToken();
+    }, []);
+
     function onLogin() {
-        getContent().then(userData => {
-            setCurrentUser(userData);
-            setLoggedIn(true);
-        }).catch(err => console.error(err));
+        setLoggedIn(true);
         navigate('/movies');
     }
+
+    const handleLogin = async (password, email) => {
+        setIsPreloading(true);
+        try {
+            const userData = await authorize(password, email);
+            localStorage.setItem('jwt', userData._id);
+            onLogin();
+        } catch (err) {
+            let errorMessage = 'Произошла неизвестная ошибка.';
+            if (loginErrors[err.status]) {
+                errorMessage = loginErrors[err.status];
+            } else if (registerErrors[err.status]) {
+                errorMessage = registerErrors[err.status];
+            } else if (profileErrors[err.status]) {
+                errorMessage = profileErrors[err.status];
+            }
+            setServerError(errorMessage);
+        } finally {
+            setIsPreloading(false);
+        }
+    };   
 
     function onRegister() {
-        getContent().then(userData => {
-            setCurrentUser(userData);
-            setLoggedIn(true);
-            setTooltipTitle('Добро пожаловать!');
-            setTooltipIcon('success');
-            setIsInfoTooltipPopupOpen(true);
-        }).catch(err => console.error(err));
+        setTooltipTitle('Добро пожаловать!');
+        setTooltipIcon('success');
+        setIsInfoTooltipPopupOpen(true);
+        setLoggedIn(true);
         navigate('/movies');
     }
 
-    function handleRegister(name, email, password) {
+    async function handleRegister(name, email, password) {
         setIsPreloading(true);
-        register(name, email, password)
-            .then((data) => {
-                localStorage.setItem('jwt', data.token);
-                setLoggedIn(true);
-                navigate('/movies');
-                onRegister();
-            })
-            .catch(err => {
-                let errorMessage = 'Произошла неизвестная ошибка.';
-                if (registerErrors[err.status]) {
-                    errorMessage = registerErrors[err.status];
-                }
-                setServerError(errorMessage);
-            })
-            .finally(() => setIsPreloading(false));
+        try {
+            const userData = await register(name, email, password);
+            localStorage.setItem('jwt', userData._id);
+            onRegister();
+        } catch (err) {
+            let errorMessage = 'Произошла неизвестная ошибка.';
+            if (registerErrors[err.status]) {
+                errorMessage = registerErrors[err.status];
+            }
+            setServerError(errorMessage);
+        } finally {
+            setIsPreloading(false);
+        }
     }
   
     function onUpdateProfile() {
@@ -214,7 +224,12 @@ function App() {
                                 isPreloading={isPreloading}
                             />}
                         />
-                        <Route path='/signin' element={<Login onLogin={onLogin}/>} />
+                        <Route path='/signin' element={
+                            <Login
+                                onLogin={handleLogin}
+                                errorMessage={serverError}
+                                isPreloading={isPreloading}
+                            />} />
 
                         <Route path='*' element={<NotFoundPage />} />
                         <Route

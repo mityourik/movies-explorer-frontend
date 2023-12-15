@@ -5,39 +5,13 @@ import AuthNav from '../AuthNav/AuthNav';
 import SubmitFormButton from '../SubmitFormButton/SubmitFormButton';
 import loginLogo from '../../images/header__logo.svg';
 import './Login.css';
-import { authorize, getContent } from '../../utils/Auth';
-import { loginErrors, registerErrors, profileErrors } from '../../constants/constatnts';
 
-function Login({ onLogin }) {
+function Login({ onLogin, isPreloading, errorMessage }) {
     const [formIsValid, setFormIsValid] = useState(false);
-    const [isPreloading, setIsPreloading] = useState(false);
-    const [serverError, setServerError] = useState('');
 
     function handleValidChange(isValid) {
         setFormIsValid(isValid);
     }
-
-    function handleLogin(password, email) {
-        setIsPreloading(true);
-        authorize(password, email)
-            .then(res => {
-                localStorage.setItem('jwt', res._id);
-                getContent();
-                onLogin();
-            })
-            .catch(err => {
-                let errorMessage = 'Произошла неизвестная ошибка.';
-                if (loginErrors[err.status]) {
-                    errorMessage = loginErrors[err.status];
-                } else if (registerErrors[err.status]) {
-                    errorMessage = registerErrors[err.status];
-                } else if (profileErrors[err.status]) {
-                    errorMessage = profileErrors[err.status];
-                }
-                setServerError(errorMessage);
-            })
-            .finally(() => setIsPreloading(false));
-    }    
 
     return (
         <main className='main'>
@@ -52,14 +26,14 @@ function Login({ onLogin }) {
                         className='login__title'>
                         Рады видеть!</h1>
                     <AuthForm
-                        onSubmit={handleLogin}
+                        onSubmit={onLogin}
                         onValidChange={handleValidChange}
                     >
                         <SubmitFormButton
                             buttonText='Войти'
                             isPreloading={isPreloading}
                             isFormValid={formIsValid}
-                            errorMessage={serverError}
+                            errorMessage={errorMessage}
                         />
                     </AuthForm>
                     <AuthNav
@@ -76,7 +50,7 @@ function Login({ onLogin }) {
 Login.propTypes = {
     onLogin: PropTypes.func,
     isPreloading: PropTypes.bool,
-    serverError: PropTypes.string
+    errorMessage: PropTypes.string
 };
 
 export default Login;
