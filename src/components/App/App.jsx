@@ -17,7 +17,7 @@ import { loginErrors, profileErrors, registerErrors } from '../../constants/cons
 import { mainApi } from '../../utils/TempMainApi';
 
 function App() {
-    const [loggedIn, setLoggedIn] = useState(localStorage.getItem('jwt') ? true : false);
+    const [loggedIn, setLoggedIn] = useState(false);
     const [currentUser, setCurrentUser] = useState(null);
     const [isPreloading, setIsPreloading] = useState(false);
     const [serverError, setServerError] = useState('');
