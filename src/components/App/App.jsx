@@ -59,14 +59,9 @@ function App() {
     };
 
     useEffect(() => {
-        getContent()
-            .then((userData) => {
-                setCurrentUser(userData);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+        checkToken();
     }, []);
+    
 
     const checkToken = async () => {
         const token = localStorage.getItem('jwt');
@@ -77,21 +72,36 @@ function App() {
                 setLoggedIn(true);
             } catch (err) {
                 console.log(err);
+                localStorage.removeItem('jwt');
                 setLoggedIn(false);
             }
         }
-    };
+    };    
+
+    function onLogin() {
+        getContent().then(userData => {
+            setCurrentUser(userData);
+            setLoggedIn(true);
+        }).catch(err => console.error(err));
+        navigate('/movies');
+    }
 
     function onRegister() {
-        setTooltipTitle('Добро пожаловать!');
-        setTooltipIcon('success');
-        setIsInfoTooltipPopupOpen(true);
+        getContent().then(userData => {
+            setCurrentUser(userData);
+            setLoggedIn(true);
+            setTooltipTitle('Добро пожаловать!');
+            setTooltipIcon('success');
+            setIsInfoTooltipPopupOpen(true);
+        }).catch(err => console.error(err));
+        navigate('/movies');
     }
 
     function handleRegister(name, email, password) {
         setIsPreloading(true);
         register(name, email, password)
-            .then(() => {
+            .then((data) => {
+                localStorage.setItem('jwt', data.token);
                 setLoggedIn(true);
                 navigate('/movies');
                 onRegister();
@@ -106,10 +116,6 @@ function App() {
             .finally(() => setIsPreloading(false));
     }
   
-    useEffect(() => {
-        checkToken();
-    }, []);
-
     function onUpdateProfile() {
         setTooltipTitle('Профиль успешно обновлен!');
         setTooltipIcon('success');
@@ -208,7 +214,7 @@ function App() {
                                 isPreloading={isPreloading}
                             />}
                         />
-                        <Route path='/signin' element={<Login />} />
+                        <Route path='/signin' element={<Login onLogin={onLogin}/>} />
 
                         <Route path='*' element={<NotFoundPage />} />
                         <Route

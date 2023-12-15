@@ -85,8 +85,8 @@
 
 @media screen and (max-width: 729px) {
     .info-tooltip__close-button {
-        right: 0px;
-        top: -37px;
+        right: -5px;
+        top: -30px;
         background-size: 20px 20px;
         width: 20px;
     }

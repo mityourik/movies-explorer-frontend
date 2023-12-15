@@ -3,7 +3,7 @@ import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import SearchForm from '../Movies/SearchForm/SearchForm';
 import { mainApi } from '../../utils/TempMainApi';
 import { LikesContext } from '../../contexts/LikesContext';
-import filterMovies2 from '../../utils/filterMovies';
+import filterMovies from '../../utils/filterMovies';
 import Preloader from '../Movies/Preloader/Preloader';
 
 const SavedMovies = () => {
@@ -58,7 +58,7 @@ const SavedMovies = () => {
             });
     };       
 
-    const filteredMovies = filterMovies2(savedMovies, searchQuery, isShortFilmOnly);
+    const filteredMovies = filterMovies(savedMovies, searchQuery, isShortFilmOnly);
 
     return (
         <main className='main'>

@@ -28,6 +28,12 @@ function MoviesCard({ movie, isSavedPage, onLike, onDelete, likedMovies }) {
         }
         setIsLiked(!isLiked);
     };
+
+    function formatDuration(duration) {
+        const hours = Math.floor(duration / 60);
+        const minutes = duration % 60;
+        return `${hours}ч ${minutes}м`;
+    }    
         
     const handleDeleteClick = () => {
         setIsLiked(false);
@@ -62,7 +68,7 @@ function MoviesCard({ movie, isSavedPage, onLike, onDelete, likedMovies }) {
                     />
                 )}
             </div>
-            <p className='movies-card__duration'>{`Длительность: ${movie.duration} мин.`}</p>
+            <p className='movies-card__duration'>{formatDuration(movie.duration)}</p>
         </li>
     );
 }

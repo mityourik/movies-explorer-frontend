@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import AuthForm from '../AuthForm/AuthForm';
 import PropTypes from 'prop-types';
 import AuthNav from '../AuthNav/AuthNav';
@@ -6,17 +6,12 @@ import SubmitFormButton from '../SubmitFormButton/SubmitFormButton';
 import loginLogo from '../../images/header__logo.svg';
 import './Login.css';
 import { authorize, getContent } from '../../utils/Auth';
-import { useNavigate } from 'react-router-dom';
 import { loginErrors, registerErrors, profileErrors } from '../../constants/constatnts';
-import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
-function Login() {
+function Login({ onLogin }) {
     const [formIsValid, setFormIsValid] = useState(false);
     const [isPreloading, setIsPreloading] = useState(false);
     const [serverError, setServerError] = useState('');
-    const { setLoggedIn } = useContext(CurrentUserContext);
-
-    const navigate = useNavigate(); 
 
     function handleValidChange(isValid) {
         setFormIsValid(isValid);
@@ -28,8 +23,7 @@ function Login() {
             .then(res => {
                 localStorage.setItem('jwt', res._id);
                 getContent();
-                setLoggedIn(true); 
-                navigate('/movies');
+                onLogin();
             })
             .catch(err => {
                 let errorMessage = 'Произошла неизвестная ошибка.';

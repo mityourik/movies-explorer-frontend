@@ -16,7 +16,7 @@ const Movies = () => {
     const [hasSearched, setHasSearched] = useState(false);
     const [searchError, setSearchError] = useState('');
     const [originalMovies, setOriginalMovies] = useState([]);
-
+    
     useEffect(() => {
         const fetchLikedMovies = async () => {
             try {
