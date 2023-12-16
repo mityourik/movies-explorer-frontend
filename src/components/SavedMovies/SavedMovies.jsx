@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
-import SearchForm from '../Movies/SearchForm/SearchForm';
+import SearchForm from '../SearchForm/SearchForm';
 import { mainApi } from '../../utils/TempMainApi';
 import { LikesContext } from '../../contexts/LikesContext';
 import filterMovies from '../../utils/filterMovies';

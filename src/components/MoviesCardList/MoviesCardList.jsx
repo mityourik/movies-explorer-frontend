@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './MoviesCardList.css';
-import MoviesCard from '../Movies/MoviesCard/MoviesCard';
+import MoviesCard from '../MoviesCard/MoviesCard';
 import { useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { VISIBLE_MOVIES, WINDOW_WIDTH_THRESHOLD } from '../../constants/constatnts';

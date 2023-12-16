@@ -17,6 +17,7 @@ import { loginErrors, profileErrors, registerErrors, signOutErrors, tokenCheckEr
 import { mainApi } from '../../utils/TempMainApi';
 import Preloader from '../Preloader/Preloader';
 import { handleError } from '../../utils/handleError';
+import Header from '../Header/Header';
 
 function App() {
     const [loggedIn, setLoggedIn] = useState(false);
@@ -198,7 +199,8 @@ function App() {
                                     loggedIn={loggedIn}
                                     isLoading={isPreloading}
                                     element={
-                                        <LayoutHeaderFooter>
+                                        <>
+                                            <Header />
                                             <Profile
                                                 signOut={onSignOut}
                                                 onSubmit={handleUpdateUser}
@@ -208,7 +210,7 @@ function App() {
                                                 currentUser={currentUser}
                                                 isPreloading={isPreloading}
                                             />
-                                        </LayoutHeaderFooter>
+                                        </>
                                     }
                                 />
                             }

@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
-import SearchForm from './SearchForm/SearchForm';
+import SearchForm from '../SearchForm/SearchForm';
 import { moviesApi } from '../../utils/MoviesApi';
 import filterMovies from '../../utils/filterMovies';
 import { mainApi } from '../../utils/TempMainApi';
@@ -80,9 +80,8 @@ const Movies = () => {
             const savedMovie = await mainApi.addMovieLike(movieData);
             setLikedMovies([...likedMovies, savedMovie]);
         } catch (error) {
-            console.error(error);
             const errorMessage = handleError(error, movieLikeErrors);
-            setSearchError(errorMessage);
+            console.error(errorMessage);
         }
     };
 

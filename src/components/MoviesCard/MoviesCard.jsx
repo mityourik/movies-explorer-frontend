@@ -1,8 +1,8 @@
 import React from 'react';
 import './MoviesCard.css';
 import PropTypes from 'prop-types';
-import { MOVIE_API_URL } from '../../../constants/constatnts';
-import { formatDuration } from '../../../utils/durationFormatter';
+import { MOVIE_API_URL } from '../../constants/constatnts';
+import { formatDuration } from '../../utils/durationFormatter';
 
 function MoviesCard({ movie, isSavedPage, onLike, onDelete, likedMovies }) {
     const isMovieLiked = likedMovies && likedMovies.some(likedMovie => likedMovie.movieId === movie.id);

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './SearchForm.css';
 import PropTypes from 'prop-types';
 import Switch from '../Switch/Switch';
-import { useFormAndValidation } from '../../../hooks/UseFormAndValidation';
+import { useFormAndValidation } from '../../hooks/UseFormAndValidation';
 
 function SearchForm({ onSubmit, onFilterChange, onValidChange, isPreloading, defaultValue, isShortFilm }) {
     const [isSorted, setIsSorted] = useState(false);
