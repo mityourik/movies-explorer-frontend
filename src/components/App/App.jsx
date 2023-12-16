@@ -77,7 +77,8 @@ function App() {
         try {
             const userData = await authorize(password, email);
             localStorage.setItem('jwt', userData.token);
-            setCurrentUser(userData);
+            const userDetails = await getContent();
+            setCurrentUser(userDetails);
             setLoggedIn(true);
             navigate('/movies');
             setTooltipTitle('С возвращением!');
@@ -97,7 +98,8 @@ function App() {
             await register(name, email, password);
             const userData = await authorize(email, password);
             localStorage.setItem('jwt', userData.token);
-            setCurrentUser(userData);
+            const userDetails = await getContent();
+            setCurrentUser(userDetails);
             setLoggedIn(true);
             navigate('/movies');
             setTooltipTitle('Добро пожаловать!');
