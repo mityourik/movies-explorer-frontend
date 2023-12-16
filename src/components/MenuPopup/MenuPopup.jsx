@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import './MenuPopup.css';
 import { NavLink } from 'react-router-dom';
 import profileIconThemeWhite from '../../images/menu-popup__profile-icon.svg';
+import { TIMEOUT_DELAY } from '../../constants/constatnts';
 
 function MenuPopup({ onClick }) {
     const [isOpen, setIsOpen] = useState(true);
@@ -37,7 +38,7 @@ function MenuPopup({ onClick }) {
         setIsOpen(false);
         setTimeout(() => {
             onClick();
-        }, 500);
+        }, TIMEOUT_DELAY);
     };
 
     return (

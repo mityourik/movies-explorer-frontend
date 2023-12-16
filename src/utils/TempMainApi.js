@@ -1,3 +1,5 @@
+import { BASE_URL } from '../constants/constatnts';
+
 class MainApi {
     constructor({ baseUrl, headers }) {
         this._baseUrl = baseUrl;
@@ -43,17 +45,19 @@ class MainApi {
         }).then(this._checkResponse);
     }
 
-    _checkResponse(res) {
+    async _checkResponse(res) {
         if (res.ok) {
             return res.json();
         }
-        return Promise.reject(`Ошибка: ${res.status}`);
+        const errorMessage = await res.text();
+        const error = new Error(errorMessage);
+        error.status = res.status;
+        throw error;
     }
 }
 
 export const mainApi = new MainApi({
-    baseUrl: 'https://api.sha.nomoredomainsmonster.ru',
-    // baseUrl: 'http://localhost:3001',
+    baseUrl: BASE_URL,
     headers: {
         'Content-Type': 'application/json',
     },

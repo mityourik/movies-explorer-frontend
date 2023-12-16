@@ -8,14 +8,15 @@ import Profile from '../Profile/Profile';
 import Login from '../Login/Login';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import LayoutHeaderFooter from '../LayoutHeaderFooter/LayoutHeaderFooter';
-import { authorize, getContent, register } from '../../utils/Auth';
+import { authorize, getContent, register, signOut } from '../../utils/Auth';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import { LikesProvider } from '../../contexts/LikesContext';
 import InfoTooltip from '../InfoTooltip/InfoTooltip';
-import { loginErrors, profileErrors, registerErrors } from '../../constants/constatnts';
+import { loginErrors, profileErrors, registerErrors, signOutErrors, tokenCheckErrors } from '../../constants/constatnts';
 import { mainApi } from '../../utils/TempMainApi';
 import Preloader from '../Preloader/Preloader';
+import { handleError } from '../../utils/handleError';
 
 function App() {
     const [loggedIn, setLoggedIn] = useState(false);
@@ -31,25 +32,19 @@ function App() {
 
     const navigate = useNavigate();
 
-    const popupToClose = {
-        isInfoTooltipPopupOpen
-    };
-
     useEffect(() => {
         const handleEscClose = (e) => {
-            if (e.key === 'Escape' && popupToClose) {
+            if (e.key === 'Escape') {
                 closePopup();
             }
         };
       
-        if (popupToClose) {
-            document.addEventListener('keydown', handleEscClose);
-        }
+        document.addEventListener('keydown', handleEscClose);
       
         return () => {
             document.removeEventListener('keydown', handleEscClose);
         };
-    }, [popupToClose]);
+    }, []);
 
     const closePopup = () => {
         setIsInfoTooltipPopupOpen(false);
@@ -63,66 +58,53 @@ function App() {
                 setCurrentUser(userData);
                 setLoggedIn(true);
             } catch (err) {
-                console.log('Ошибка при получении данных пользователя:', err);
+                const errorMessage = handleError(err, tokenCheckErrors);
+                setServerError(errorMessage);
                 localStorage.removeItem('jwt');
                 setLoggedIn(false);
             }
         } else {
             setLoggedIn(false);
         }
-    };    
+    };
 
     useEffect(() => {
         checkToken().finally(() => setIsPreloading(false));
     }, []);
 
-    function onLogin() {
-        setLoggedIn(true);
-        checkToken();
-        navigate('/movies');
-    }
-
     const handleLogin = async (password, email) => {
         setIsPreloading(true);
         try {
             const userData = await authorize(password, email);
-            localStorage.setItem('jwt', userData._id);
-            onLogin();
+            localStorage.setItem('jwt', userData.token);
+            setCurrentUser(userData);
+            setLoggedIn(true);
+            navigate('/movies');
+            setTooltipTitle('С возвращением!');
+            setTooltipIcon('success');
+            setIsInfoTooltipPopupOpen(true);
         } catch (err) {
-            let errorMessage = 'Произошла неизвестная ошибка.';
-            if (loginErrors[err.status]) {
-                errorMessage = loginErrors[err.status];
-            } else if (registerErrors[err.status]) {
-                errorMessage = registerErrors[err.status];
-            } else if (profileErrors[err.status]) {
-                errorMessage = profileErrors[err.status];
-            }
+            const errorMessage = handleError(err, loginErrors);
             setServerError(errorMessage);
         } finally {
             setIsPreloading(false);
         }
-    };   
-
-    function onRegister() {
-        setTooltipTitle('Добро пожаловать!');
-        setTooltipIcon('success');
-        setIsInfoTooltipPopupOpen(true);
-        setLoggedIn(true);
-        checkToken();
-        navigate('/movies');
-    }
+    };
 
     async function handleRegister(name, email, password) {
         setIsPreloading(true);
         try {
-            const userData = await register(name, email, password);
-            localStorage.setItem('jwt', userData._id);
-            onRegister();
+            await register(name, email, password);
+            const userData = await authorize(email, password);
+            localStorage.setItem('jwt', userData.token);
+            setCurrentUser(userData);
+            setLoggedIn(true);
+            navigate('/movies');
+            setTooltipTitle('Добро пожаловать!');
+            setTooltipIcon('success');
+            setIsInfoTooltipPopupOpen(true);
         } catch (err) {
-            let errorMessage = 'Произошла неизвестная ошибка.';
-            if (registerErrors[err.status]) {
-                errorMessage = registerErrors[err.status];
-            }
+            const errorMessage = handleError(err, registerErrors);
             setServerError(errorMessage);
         } finally {
             setIsPreloading(false);
@@ -147,25 +129,33 @@ function App() {
                 onUpdateProfile();
             })
             .catch((error) => {
-                console.error(error);
-                const status = error.response?.status || 500; // Правильно определить status
-                let errorMessage = 'При обновлении профиля произошла ошибка.';
-                if (profileErrors[status]) {
-                    errorMessage = profileErrors[status];
-                }
+                const errorMessage = handleError(error, profileErrors);
                 setServerError(errorMessage);
             })
             .finally(() => setIsPreloading(false));
     };
 
-    function signOut() {
-        localStorage.removeItem('jwt');
-        sessionStorage.removeItem('searchQuery');
-        sessionStorage.removeItem('isShortFilm');
-        sessionStorage.removeItem('searchResults');
-        sessionStorage.removeItem('isShortFilmOnly');
-        setLoggedIn(false);
-        navigate('/');
+    function onSignOut() {
+        setIsPreloading(true);
+        signOut()
+            .then(() => {
+                localStorage.removeItem('jwt');
+                localStorage.removeItem('searchQuery');
+                localStorage.removeItem('isShortFilm');
+                localStorage.removeItem('searchResults');
+                localStorage.removeItem('isShortFilmOnly');
+                setCurrentUser(null);
+                setLoggedIn(false);
+    
+                navigate('/');
+            })
+            .catch((error) => {
+                const errorMessage = handleError(error, signOutErrors);
+                setServerError(errorMessage);
+            })
+            .finally(() => {
+                setIsPreloading(false);
+            });
     }
 
     return (
@@ -182,10 +172,7 @@ function App() {
                                     loggedIn={loggedIn}
                                     isLoading={isPreloading}
                                     element={
-                                        <LayoutHeaderFooter>
-                                            <Movies />
-                                        </LayoutHeaderFooter>} 
-                                />
+                                        <LayoutHeaderFooter><Movies /></LayoutHeaderFooter>} />
                             } 
                         />
                         <Route 
@@ -211,7 +198,7 @@ function App() {
                                     element={
                                         <LayoutHeaderFooter>
                                             <Profile
-                                                signOut={signOut}
+                                                signOut={onSignOut}
                                                 onSubmit={handleUpdateUser}
                                                 isEditing={isEditing}
                                                 setIsEditing={setIsEditing}
@@ -224,19 +211,19 @@ function App() {
                                 />
                             }
                         />
-                        <Route path='/signup' element={
-                            <Register
-                                onRegister={handleRegister}
-                                errorMessage={serverError}
-                                isPreloading={isPreloading}
-                            />}
+
+                        <Route path='/signup' element={loggedIn ? <Navigate to="/" /> : <Register
+                            onRegister={handleRegister}
+                            errorMessage={serverError}
+                            isPreloading={isPreloading}
+                        />}
                         />
-                        <Route path='/signin' element={
-                            <Login
-                                onLogin={handleLogin}
-                                errorMessage={serverError}
-                                isPreloading={isPreloading}
-                            />} />
+                        <Route path='/signin' element={loggedIn ? <Navigate to="/" /> : <Login
+                            onLogin={handleLogin}
+                            errorMessage={serverError}
+                            isPreloading={isPreloading}
+                        />}
+                        />
 
                         <Route path='*' element={<NotFoundPage />} />
                         <Route

@@ -14,7 +14,7 @@ function SubmitFormButton ({ isPreloading, buttonText, isFormValid, errorMessage
         <>
             <span
                 className={isErrorSpanSignin ? 'submit-form-button__span-error_signin' : 'submit-form-button__span-error'}>
-                {errorMessage} {/*  тут <--------------------------------- */}
+                {errorMessage}
             </span>
             <button
                 className={buttonClass}

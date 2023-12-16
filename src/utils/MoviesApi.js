@@ -1,14 +1,19 @@
+import { BEATFILM_MOVIE_API_URL } from '../constants/constatnts';
+
 class MoviesApi {
     constructor(config) {// конструктор принимает объект конфигурации API
         this._url = config.url;
         this._headers = config.headers;
     }
   
-    async _handleResponse(res) {// Метод обработки ответа сервера
+    async _handleResponse(res) {
         if (res.ok) {
             return res.json();
         }
-        throw new Error(`Ошибка ${res.status}`);
+        const errorMessage = await res.text();
+        const error = new Error(errorMessage);
+        error.status = res.status;
+        throw error;
     }
   
     async _fetchData(url, options) {
@@ -35,7 +40,7 @@ class MoviesApi {
   
 //класс для апи
 export const moviesApi = new MoviesApi({
-    url: 'https://api.nomoreparties.co/beatfilm-movies',
+    url: BEATFILM_MOVIE_API_URL,
     headers: {
         'Content-Type': 'application/json',
     }

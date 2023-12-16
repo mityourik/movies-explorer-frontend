@@ -1,5 +1,4 @@
-// export const BASE_URL = 'http://localhost:3001';
-export const BASE_URL = 'https://api.sha.nomoredomainsmonster.ru';
+import { BASE_URL } from '../constants/constatnts';
 
 async function checkResponse(res) {
     if (res.ok) {
@@ -12,26 +11,27 @@ async function checkResponse(res) {
     throw error;
 }
 
-export const register = async (name, email, password) => {//функция для регистрации
+export const register = async (name, email, password) => {
     const response = await fetch(`${BASE_URL}/signup`, {
         method: 'POST',
         credentials: 'include',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(name, email, password)
+        body: JSON.stringify({ name, email, password })
     });
-    return checkResponse(response); 
+    const result = await checkResponse(response);
+    return result;
 };
 
-export const authorize = async (password, email) => {//функция для авторизации
+export const authorize = async (email, password) => {
     const response = await fetch(`${BASE_URL}/signin`, {
         method: 'POST',
         credentials: 'include',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(password, email)
+        body: JSON.stringify({ email, password })
     });
     return checkResponse(response);
 };

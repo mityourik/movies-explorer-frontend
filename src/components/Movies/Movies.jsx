@@ -6,6 +6,14 @@ import filterMovies from '../../utils/filterMovies';
 import { mainApi } from '../../utils/TempMainApi';
 import { LikesContext } from '../../contexts/LikesContext';
 import Preloader from '../Preloader/Preloader';
+import { handleError } from '../../utils/handleError';
+import {
+    MOVIE_API_URL,
+    likedMoviesErrors,
+    movieDeleteErrors,
+    movieLikeErrors,
+    movieSearchErrors
+} from '../../constants/constatnts';
 
 const Movies = () => {
     const [searchResults, setSearchResults] = useState([]);
@@ -23,10 +31,10 @@ const Movies = () => {
                 const likedMoviesFromServer = await mainApi.getSavedMovies();
                 setLikedMovies(likedMoviesFromServer);
             } catch (error) {
-                console.error('Ошибка при получении лайкнутых фильмов:', error);
+                const errorMessage = handleError(error, likedMoviesErrors);
+                console.log(errorMessage);
             }
         };
-    
         fetchLikedMovies();
     }, []);
 
@@ -42,12 +50,13 @@ const Movies = () => {
             const filteredMovies = filterMovies(movies, query.movie, query.isShortFilm);
             setSearchResults(filteredMovies);
 
-            sessionStorage.setItem('searchQuery', query.movie);
-            sessionStorage.setItem('isShortFilm', query.isShortFilm);
-            sessionStorage.setItem('searchResults', JSON.stringify(filteredMovies));
+            localStorage.setItem('searchQuery', query.movie);
+            localStorage.setItem('isShortFilm', query.isShortFilm);
+            localStorage.setItem('searchResults', JSON.stringify(filteredMovies));
+
         } catch (error) {
-            console.error(error);
-            setSearchError('Во время запроса произошла ошибка.');
+            const errorMessage = handleError(error, movieSearchErrors);
+            setSearchError(errorMessage);
         } finally {
             setIsLoading(false);
         }
@@ -61,9 +70,9 @@ const Movies = () => {
                 duration: movie.duration,
                 year: movie.year,
                 description: movie.description,
-                image: `https://api.nomoreparties.co${movie.image.url}`,
+                image: MOVIE_API_URL + movie.image.url,
                 trailerLink: movie.trailerLink,
-                thumbnail: `https://api.nomoreparties.co${movie.image.formats.thumbnail.url}`,
+                thumbnail: MOVIE_API_URL + movie.image.formats.thumbnail.url,
                 movieId: movie.id.toString(),
                 nameRU: movie.nameRU,
                 nameEN: movie.nameEN,
@@ -71,20 +80,22 @@ const Movies = () => {
             const savedMovie = await mainApi.addMovieLike(movieData);
             setLikedMovies([...likedMovies, savedMovie]);
         } catch (error) {
-            console.error('Ошибка при лайке фильма:', error);
+            console.error(error);
+            const errorMessage = handleError(error, movieLikeErrors);
+            setSearchError(errorMessage);
         }
     };
 
     useEffect(() => {
-        const savedSearchQuery = sessionStorage.getItem('searchQuery');
-        const savedIsShortFilm = sessionStorage.getItem('isShortFilm') === 'true';
+        const savedSearchQuery = localStorage.getItem('searchQuery');
+        const savedIsShortFilm = localStorage.getItem('isShortFilm') === 'true';
     
         if (savedSearchQuery !== null) {
             setSearchQuery(savedSearchQuery);
             setIsShortFilm(savedIsShortFilm);
-            const savedSearchResults = JSON.parse(sessionStorage.getItem('searchResults'));
+            const savedSearchResults = JSON.parse(localStorage.getItem('searchResults'));
             if (savedSearchResults) {
-                setOriginalMovies(savedSearchResults); // Сохраняем исходный список фильмов из sessionStorage
+                setOriginalMovies(savedSearchResults);
                 const reFilteredMovies = filterMovies(savedSearchResults, savedSearchQuery, savedIsShortFilm);
                 setSearchResults(reFilteredMovies);
                 setHasSearched(true);
@@ -105,7 +116,8 @@ const Movies = () => {
                 await mainApi.removeMovieLike(savedMovieId);
                 setLikedMovies(prevLikedMovies => prevLikedMovies.filter(likedMovie => likedMovie._id !== savedMovieId));
             } catch (error) {
-                console.error('Ошибка при удалении фильма:', error);
+                const errorMessage = handleError(error, movieDeleteErrors);
+                console.error(errorMessage);
             }
         } else {
             console.error('Фильм для удаления не найден');

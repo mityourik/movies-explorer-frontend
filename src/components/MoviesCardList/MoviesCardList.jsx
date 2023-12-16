@@ -3,6 +3,7 @@ import './MoviesCardList.css';
 import MoviesCard from '../Movies/MoviesCard/MoviesCard';
 import { useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { VISIBLE_MOVIES, WINDOW_WIDTH_THRESHOLD } from '../../constants/constatnts';
 
 const MoviesCardList = ({ movies, onLike, onDelete, likedMovies }) => {
     const location = useLocation();
@@ -11,14 +12,14 @@ const MoviesCardList = ({ movies, onLike, onDelete, likedMovies }) => {
     const [visibleCount, setVisibleCount] = useState(16);
 
     const calculateVisibleMovies = (windowWidth) => {
-        if (windowWidth > 1279) {
-            return 16;
-        } else if (windowWidth >= 989 && windowWidth <= 1279) {
-            return 12;
-        } else if (windowWidth >= 767 && windowWidth < 1099) {
-            return 8;
-        } else if (windowWidth <= 850) {
-            return 5;
+        if (windowWidth > WINDOW_WIDTH_THRESHOLD.LARGE) {
+            return VISIBLE_MOVIES.LARGE;
+        } else if (windowWidth >= WINDOW_WIDTH_THRESHOLD.MEDIUM && windowWidth <= WINDOW_WIDTH_THRESHOLD.LARGE) {
+            return VISIBLE_MOVIES.MEDIUM;
+        } else if (windowWidth >= WINDOW_WIDTH_THRESHOLD.SMALL && windowWidth < WINDOW_WIDTH_THRESHOLD.EXTRA_SMALL) {
+            return VISIBLE_MOVIES.SMALL;
+        } else if (windowWidth <= WINDOW_WIDTH_THRESHOLD.EXTRA_SMALL) {
+            return VISIBLE_MOVIES.EXTRA_SMALL;
         }
     };
 

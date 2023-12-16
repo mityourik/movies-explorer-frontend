@@ -15,10 +15,6 @@ const SavedMovies = () => {
     const { likedMovies, setLikedMovies } = useContext(LikesContext);
 
     useEffect(() => {
-        const savedIsShortFilmOnly = sessionStorage.getItem('isShortFilmOnly');
-        if (savedIsShortFilmOnly !== null) {
-            setIsShortFilmOnly(savedIsShortFilmOnly === 'true');
-        }
         setIsLoading(true);
         mainApi.getSavedMovies()
             .then(movies => {
@@ -31,11 +27,13 @@ const SavedMovies = () => {
             .finally(() => {
                 setIsLoading(false);
             });
+
+        setSearchQuery('');
+        setIsShortFilmOnly(false);
     }, []);
 
     const handleFilterChange = (isSorted) => {
         setIsShortFilmOnly(isSorted);
-        sessionStorage.setItem('isShortFilmOnly', isSorted);
     };
 
     const handleSubmit = (query) => {
@@ -67,6 +65,7 @@ const SavedMovies = () => {
                 onFilterChange={handleFilterChange}
                 isPreloading={isLoading}
                 isShortFilm={isShortFilmOnly}
+                defaultValue={searchQuery}
             />
             {isLoading && <Preloader />}
             {!isLoading && filteredMovies.length === 0 && !searchError && <p className='search-form__error'>Ничего не найдено</p>}

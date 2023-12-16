@@ -1,51 +1,41 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import './MoviesCard.css';
 import PropTypes from 'prop-types';
-import { moviesApiUrl } from '../../../constants/constatnts';
+import { MOVIE_API_URL } from '../../../constants/constatnts';
+import { formatDuration } from '../../../utils/durationFormatter';
 
 function MoviesCard({ movie, isSavedPage, onLike, onDelete, likedMovies }) {
     const isMovieLiked = likedMovies && likedMovies.some(likedMovie => likedMovie.movieId === movie.id);
 
-    const [isLiked, setIsLiked] = useState(isMovieLiked);
-
-    useEffect(() => {
-        setIsLiked(likedMovies.some(likedMovie => likedMovie.movieId === movie.id));
-    }, [likedMovies, movie.id]);
-
     const imageUrl = typeof movie.image === 'string' 
         ? movie.image 
-        : moviesApiUrl + movie.image.url;
+        : MOVIE_API_URL + movie.image.url;
 
-    const handleLikeClick = () => {        
-        if (isLiked) {
-            if (!isSavedPage) {
-                onDelete(movie);
+    const handleLikeClick = async () => {
+        try {
+            if (isMovieLiked) {
+                if (!isSavedPage) {
+                    await onDelete(movie);
+                }
+            } else {
+                if (onLike) {
+                    await onLike(movie);
+                }
             }
-        } else {
-            if (onLike) {
-                onLike(movie);
-            }
+        } catch (error) {
+            console.error('Ошибка при обработке лайка:', error);
         }
-        setIsLiked(!isLiked);
-    };
+    };  
 
-    function formatDuration(duration) {
-        const hours = Math.floor(duration / 60);
-        const minutes = duration % 60;
-        return `${hours}ч ${minutes}м`;
-    }    
-        
     const handleDeleteClick = () => {
-        setIsLiked(false);
         if (isSavedPage) {
             onDelete(movie);
         }
     };
-        
 
     return (
         <li className='movies-card'>
-            <a className='movies-card__movie-link' href={movie.trailerLink} target='_blank' rel='noreferrer'>
+            <a className='movies-card__movie-link' href={movie.trailerLink} target='_blank' rel='noopener noreferrer'>
                 <img
                     className='movies-card__image'
                     src={imageUrl}
@@ -62,7 +52,7 @@ function MoviesCard({ movie, isSavedPage, onLike, onDelete, likedMovies }) {
                     />
                 ) : (
                     <button
-                        className={`movies-card__button ${isLiked ? 'movies-card__button_liked' : ''}`}
+                        className={`movies-card__button ${isMovieLiked ? 'movies-card__button_liked' : ''}`}
                         onClick={handleLikeClick}
                         type='button'
                     />

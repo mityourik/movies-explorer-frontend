@@ -1,4 +1,10 @@
-export const moviesApiUrl = 'https://api.nomoreparties.co';
+export const BASE_URL = 'https://api.sha.nomoredomainsmonster.ru';
+// export const BASE_URL = 'http://localhost:3001';
+export const MOVIE_API_URL = 'https://api.nomoreparties.co';
+export const BEATFILM_MOVIE_API_URL = 'https://api.nomoreparties.co/beatfilm-movies';
+export const EMAIL_PATTERN = '[^@ \\t\\r\\n]+@[^@ \\t\\r\\n]+\\.[^@ \\t\\r\\n]+';
+export const TIMEOUT_DELAY = 500;
+
 
 export const loginErrors = {
     409: 'Вы ввели неправильный логин или пароль.',
@@ -19,4 +25,44 @@ export const profileErrors = {
 export const serverErrors = {
     500: '500 На сервере произошла ошибка.',
     404: '404 Страница по указанному маршруту не найдена.',
+};
+
+export const signOutErrors = {
+    500: 'Произошла серверная ошибка при попытке выхода из системы.',
+};
+
+export const tokenCheckErrors = {
+    401: 'Неверный токен. Пожалуйста, войдите заново.',
+    500: 'Произошла серверная ошибка при проверке токена.',
+};
+
+export const likedMoviesErrors = {
+    500: 'Серверная ошибка. Не удалось загрузить лайкнутые фильмы.',
+};
+
+export const movieSearchErrors = {
+    500: 'Серверная ошибка. Не удалось выполнить поиск фильмов.',
+};
+
+export const movieLikeErrors = {
+    500: 'Серверная ошибка. Не удалось поставить лайк фильму.',
+    400: 'Серверная ошибка. Переданы некорректные данные.'
+};
+
+export const movieDeleteErrors = {
+    500: 'Серверная ошибка. Не удалось удалить фильм.',
+};
+
+export const VISIBLE_MOVIES = {
+    LARGE: 16,
+    MEDIUM: 12,
+    SMALL: 8,
+    EXTRA_SMALL: 5,
+};
+
+export const WINDOW_WIDTH_THRESHOLD = {
+    LARGE: 1279,
+    MEDIUM: 989,
+    SMALL: 767,
+    EXTRA_SMALL: 850,
 };

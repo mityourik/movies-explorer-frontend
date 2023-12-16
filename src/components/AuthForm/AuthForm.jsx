@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types'; 
 import { useFormAndValidation } from '../../hooks/UseFormAndValidation';
 import './AuthForm.css';
+import { EMAIL_PATTERN } from '../../constants/constatnts';
 
 function AuthForm({ children, isRegistration, onSubmit, onValidChange }) {
     const { values, handleChange, errors, isValid } = useFormAndValidation();
@@ -13,7 +14,11 @@ function AuthForm({ children, isRegistration, onSubmit, onValidChange }) {
     function handleSubmit(e) {
         e.preventDefault();
         if (isValid) {
-            onSubmit(values);
+            if (isRegistration) {
+                onSubmit(values.name, values.email, values.password);
+            } else {
+                onSubmit(values.email, values.password);
+            }
         }
     }
 
@@ -54,7 +59,7 @@ function AuthForm({ children, isRegistration, onSubmit, onValidChange }) {
                     type='email'
                     name='email'
                     placeholder='Email'
-                    pattern='[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+'
+                    pattern={EMAIL_PATTERN}
                     onChange={handleChange}
                     value={values.email || ''}
                     required
