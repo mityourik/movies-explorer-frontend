@@ -51,35 +51,13 @@ function App() {
         setIsInfoTooltipPopupOpen(false);
     };
 
-    const checkToken = async () => {
-        const token = localStorage.getItem('jwt');
-        if (token) {
-            try {
-                const userData = await getContent(token);
-                setCurrentUser(userData);
-                setLoggedIn(true);
-            } catch (err) {
-                const errorMessage = handleError(err, tokenCheckErrors);
-                setServerError(errorMessage);
-                localStorage.removeItem('jwt');
-                setLoggedIn(false);
-            }
-        } else {
-            setLoggedIn(false);
-        }
-    };
-
-    useEffect(() => {
-        checkToken().finally(() => setIsPreloading(false));
-    }, []);
-
     const handleLogin = async (password, email) => {
         setIsPreloading(true);
         try {
-            const userData = await authorize(password, email);
-            localStorage.setItem('jwt', userData.token);
-            const userDetails = await getContent();
-            setCurrentUser(userDetails);
+            const authData = await authorize(password, email);
+            localStorage.setItem('jwt', authData.token);
+            const userData = await getContent(authData.token);
+            setCurrentUser(userData);
             setLoggedIn(true);
             navigate('/movies');
             setTooltipTitle('С возвращением!');
@@ -97,10 +75,10 @@ function App() {
         setIsPreloading(true);
         try {
             await register(name, email, password);
-            const userData = await authorize(email, password);
-            localStorage.setItem('jwt', userData.token);
-            const userDetails = await getContent();
-            setCurrentUser(userDetails);
+            const userAuth = await authorize(email, password);
+            localStorage.setItem('jwt', userAuth.token);
+            const userData = await getContent();
+            setCurrentUser(userData);
             setLoggedIn(true);
             navigate('/movies');
             setTooltipTitle('Добро пожаловать!');
@@ -145,8 +123,8 @@ function App() {
                 localStorage.removeItem('jwt');
                 localStorage.removeItem('searchQuery');
                 localStorage.removeItem('isShortFilm');
-                localStorage.removeItem('searchResults');
                 localStorage.removeItem('isShortFilmOnly');
+                localStorage.removeItem('initialMovies');
                 setCurrentUser(null);
                 setLoggedIn(false);
     
@@ -160,6 +138,30 @@ function App() {
                 setIsPreloading(false);
             });
     }
+
+    useEffect(() => {
+        const checkToken = async () => {
+            const token = localStorage.getItem('jwt');
+            if (token) {
+                try {
+                    const userData = await getContent(token);
+                    setCurrentUser(userData);
+                    setLoggedIn(true);
+                } catch (err) {
+                    const errorMessage = handleError(err, tokenCheckErrors);
+                    setServerError(errorMessage);
+                    localStorage.removeItem('jwt');
+                    setLoggedIn(false);
+                    setCurrentUser(null);
+                }
+            } else {
+                setLoggedIn(false);
+                setCurrentUser(null);
+            }
+        };
+        
+        checkToken().finally(() => setIsPreloading(false));
+    }, []);
 
     return (
         <CurrentUserContext.Provider value={{ currentUser, loggedIn, setCurrentUser, setLoggedIn }}>
@@ -175,7 +177,9 @@ function App() {
                                     loggedIn={loggedIn}
                                     isLoading={isPreloading}
                                     element={
-                                        <LayoutHeaderFooter><Movies /></LayoutHeaderFooter>} />
+                                        <LayoutHeaderFooter>
+                                            <Movies />
+                                        </LayoutHeaderFooter>} />
                             } 
                         />
                         <Route 

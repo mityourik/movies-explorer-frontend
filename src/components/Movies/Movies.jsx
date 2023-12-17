@@ -10,6 +10,7 @@ import { handleError } from '../../utils/handleError';
 import {
     MOVIE_API_URL,
     likedMoviesErrors,
+    // likedMoviesErrors,
     movieDeleteErrors,
     movieLikeErrors,
     movieSearchErrors
@@ -25,42 +26,56 @@ const Movies = () => {
     const [searchError, setSearchError] = useState('');
     const [originalMovies, setOriginalMovies] = useState([]);
     
-    useEffect(() => {
-        const fetchLikedMovies = async () => {
-            try {
-                const likedMoviesFromServer = await mainApi.getSavedMovies();
-                setLikedMovies(likedMoviesFromServer);
-            } catch (error) {
-                const errorMessage = handleError(error, likedMoviesErrors);
-                console.log(errorMessage);
-            }
-        };
-        fetchLikedMovies();
-    }, []);
-
     const handleSearchSubmit = async (query) => {
         setIsLoading(true);
         setHasSearched(true);
         setSearchError('');
         setSearchQuery(query.movie);
         setIsShortFilm(query.isShortFilm);
-        try {
-            const movies = await moviesApi.getInitialMovies();
-            setOriginalMovies(movies);
-            const filteredMovies = filterMovies(movies, query.movie, query.isShortFilm);
+
+        const savedMovies = localStorage.getItem('initialMovies');
+        if (savedMovies) {
+            const parsedMovies = JSON.parse(savedMovies);
+            setOriginalMovies(parsedMovies);
+            const filteredMovies = filterMovies(parsedMovies, query.movie, query.isShortFilm);
             setSearchResults(filteredMovies);
+        } else {
+            try {
+                const movies = await moviesApi.getInitialMovies();
+                setOriginalMovies(movies);
+                const filteredMovies = filterMovies(movies, query.movie, query.isShortFilm);
+                setSearchResults(filteredMovies);
 
-            localStorage.setItem('searchQuery', query.movie);
-            localStorage.setItem('isShortFilm', query.isShortFilm);
-            localStorage.setItem('searchResults', JSON.stringify(filteredMovies));
-
-        } catch (error) {
-            const errorMessage = handleError(error, movieSearchErrors);
-            setSearchError(errorMessage);
-        } finally {
-            setIsLoading(false);
+                localStorage.setItem('initialMovies', JSON.stringify(movies));
+            } catch (error) {
+                const errorMessage = handleError(error, movieSearchErrors);
+                setSearchError(errorMessage);
+            }
         }
+
+        localStorage.setItem('searchQuery', query.movie);
+        localStorage.setItem('isShortFilm', query.isShortFilm);
+        setIsLoading(false);
     };
+
+    useEffect(() => {
+        const savedSearchQuery = localStorage.getItem('searchQuery');
+        const savedIsShortFilm = localStorage.getItem('isShortFilm') === 'true';
+        const savedMovies = localStorage.getItem('initialMovies');
+
+        if (savedMovies) {
+            const parsedMovies = JSON.parse(savedMovies);
+            setOriginalMovies(parsedMovies);
+
+            if (savedSearchQuery !== null) {
+                setSearchQuery(savedSearchQuery);
+                setIsShortFilm(savedIsShortFilm);
+                const reFilteredMovies = filterMovies(parsedMovies, savedSearchQuery, savedIsShortFilm);
+                setSearchResults(reFilteredMovies);
+                setHasSearched(true);
+            }
+        }
+    }, []);
 
     const onLike = async (movie) => {
         try {
@@ -85,22 +100,36 @@ const Movies = () => {
         }
     };
 
+    const loadLikedMovies = async () => {
+        try {
+            const likedMoviesData = await mainApi.getSavedMovies();
+            setLikedMovies(likedMoviesData);
+        } catch (error) {
+            const errorMessage = handleError(error, likedMoviesErrors);
+            console.error(errorMessage);
+        }
+    };
+
     useEffect(() => {
         const savedSearchQuery = localStorage.getItem('searchQuery');
         const savedIsShortFilm = localStorage.getItem('isShortFilm') === 'true';
-    
-        if (savedSearchQuery !== null) {
-            setSearchQuery(savedSearchQuery);
-            setIsShortFilm(savedIsShortFilm);
-            const savedSearchResults = JSON.parse(localStorage.getItem('searchResults'));
-            if (savedSearchResults) {
-                setOriginalMovies(savedSearchResults);
-                const reFilteredMovies = filterMovies(savedSearchResults, savedSearchQuery, savedIsShortFilm);
+        const savedMovies = localStorage.getItem('originalMovies');
+      
+        if (savedMovies) {
+            const parsedMovies = JSON.parse(savedMovies);
+            setOriginalMovies(parsedMovies);
+      
+            if (savedSearchQuery !== null) {
+                setSearchQuery(savedSearchQuery);
+                setIsShortFilm(savedIsShortFilm);
+                const reFilteredMovies = filterMovies(parsedMovies, savedSearchQuery, savedIsShortFilm);
                 setSearchResults(reFilteredMovies);
                 setHasSearched(true);
+      
+                loadLikedMovies();
             }
         }
-    }, []);    
+    }, []);   
     
 
     function findSavedMovieById(savedMovies, movieId) {
@@ -127,7 +156,9 @@ const Movies = () => {
         setIsShortFilm(isSorted);
         const reFilteredMovies = filterMovies(originalMovies, searchQuery, isSorted);
         setSearchResults(reFilteredMovies);
-    };
+      
+        localStorage.setItem('isShortFilm', isSorted.toString());
+    };     
 
     return (
         <main className='main'>
