@@ -1,10 +1,10 @@
 .register__container {
     max-width: 396px;
     width: 100%;
-    margin: 0 auto;
-    margin: 70px auto;
     display: flex;
     flex-direction: column;
+    padding: 70px 0 70px 0;
+    margin: 0 auto;
 }
 
 .register__logo {

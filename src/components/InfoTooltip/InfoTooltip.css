@@ -1,0 +1,106 @@
+.info-tooltip {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.5);
+    height: 100%;
+    width: 100%;
+    top: 0;
+    opacity: 0;
+    transition: visibility 0.3s, opacity 0.3s;
+    visibility: hidden;
+}
+
+.info-tooltip_opened {
+    opacity: 1;
+    visibility: visible;
+}
+
+.info-tooltip__container_content_tooltip {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 25px rgba(0,0,0, 0.15);
+    box-sizing: border-box;
+    padding: 33px 36px 35px;
+    position: relative;
+    width: 430px;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.info-tooltip__close-button {
+    border: none;
+    background-color: transparent;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    background-image: url(../../images/menu-popup__close-button.svg);
+    background-repeat: no-repeat;
+    width: 32px;
+    height: 32px;
+    position: absolute;
+    right: -40px;
+    top: -40px;
+    opacity: 1;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.info-tooltip__icon {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto;
+    margin-top: 27px;
+}
+
+.info-tooltip__title {
+    color: #000;
+    text-align: center;
+    font-family: Inter;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 900;
+    line-height: normal;
+    margin-top: 32px;
+    margin-bottom: 20px;
+}
+
+.info-tooltip__close-button:hover {
+    opacity: 0.6;
+}
+
+@media screen and (max-width: 729px) {
+    .info-tooltip__title {
+        font-size: 20px;
+        margin: 40px 0 25px 0;
+    }
+}
+
+@media screen and (max-width: 729px) {
+    .info-tooltip__icon {
+        margin-top: 25px;
+    }
+}
+
+@media screen and (max-width: 729px) {
+    .info-tooltip__close-button {
+        right: -5px;
+        top: -30px;
+        background-size: 20px 20px;
+        width: 20px;
+    }
+}
+
+@media screen and (max-width: 729px) {
+    .info-tooltip__container_content_tooltip {
+        max-width: 282px;
+        padding: 25px 22px;
+    }
+}
+
+@media screen and (max-width: 729px) {
+    .info-tooltip__icon {
+        margin-top: 25px;
+    }
+}

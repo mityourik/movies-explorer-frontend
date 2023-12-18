@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import headerAccImg from '../../images/header__account-image.svg';
 import headerAccImgThemeWhite from '../../images/menu-popup__profile-icon.svg';
 import './Header.css';
@@ -10,7 +11,7 @@ import menuLogoThemeWhite from '../../images/header__menu-icon_theme_white.svg';
 import MenuPopup from '../MenuPopup/MenuPopup';
 
 function Header () {
-    const [isUserLoggedIn, setIsUserLoggedIn] = useState(true);
+    const { loggedIn } = useContext(CurrentUserContext);
     const [isMenuPopupOpen, setIsMenuPopupOpen] = useState(false);
     const location = useLocation();
     const isHomePage = location.pathname === '/';
@@ -23,31 +24,26 @@ function Header () {
         setIsMenuPopupOpen(false);
     };
 
-    const toggleUserLoggedIn = () => {
-        setIsUserLoggedIn(!isUserLoggedIn);
-    };
-
     return (
         <header className={`header ${isHomePage ? '' : 'header__theme_white'}`}>
             <div className='header__container'>
                 <div className='header__column header__column_content_logo'>
                     <Logo />
                 </div>
-                {isUserLoggedIn && (
+                {loggedIn && (
                     <nav className='header__column header__column_content_nav'>
                         <Navigation />
                     </nav>
                 )}
-                {isUserLoggedIn ? (
+                {loggedIn ? (
                     <div className='header__column header__column_content_account'>
-                        <button className='header__button-account'>
+                        <NavLink to='/profile' className='header__button-account'>
                             <img
                                 className={isHomePage ? 'header__account-img' : 'header___account-img_theme-white'}
                                 src={isHomePage? headerAccImg : headerAccImgThemeWhite}
                                 alt='Изображение кнопки профиля'
-                                onClick={toggleUserLoggedIn}
                             />
-                        </button>
+                        </NavLink>
                         <img
                             className='header__menu-icon'
                             src={isHomePage ? menuLogo : menuLogoThemeWhite}
@@ -57,10 +53,10 @@ function Header () {
                     </div>
                 ) : (
                     <div className='header__column header__column_content_auth'>
-                        <NavLink to='signin' className='header__signin-link'>
-                            <button className='header__auth-button' onClick={toggleUserLoggedIn}>Войти</button>
+                        <NavLink to='/signin' className='header__signin-link'>
+                            <button className='header__auth-button'>Войти</button>
                         </NavLink>
-                        <NavLink to='/signup' className='header__registration-link'>Регистрация</NavLink>
+                        <NavLink to='/signup' className={isHomePage ? 'header__registration-link' : 'header__registration-link_theme-white'}>Регистрация</NavLink>
                     </div>
                 )}
             </div>

@@ -11,10 +11,10 @@ function Portfolio () {
                         href='https://mityourik.github.io/russian-travel/'
                         target='_blank' rel='noreferrer'>
                             Статичный сайт
-                        <button
-                            className='portfolio__link-button'>
+                        <p
+                            className='portfolio__link-button' aria-label='Кнопка-ссылка на проект'>
                                 &#x2197;
-                        </button>
+                        </p>
                     </a>
                 </li>
                 <li className='portfolio__item'>
@@ -22,20 +22,26 @@ function Portfolio () {
                         className='portfolio__link'
                         href='https://mityourik.github.io/mesto-react/'
                         target='_blank'
-                        rel='noreferrer'>
+                        rel='noopener noreferrer'>
                             Адаптивный сайт
-                        <button
-                            className='portfolio__link-button'>
+                        <p
+                            className='portfolio__link-button'
+                            aria-label='Кнопка-ссылка на проект'>
                                 &#x2197;
-                        </button>
+                        </p>
                     </a>
                 </li>
                 <li className='portfolio__item'>
-                    <a className='portfolio__link' href='https://mityourik.nomoredomainsrocks.ru' target='_blank' rel="noreferrer">Одностраничное приложение
-                        <button
-                            className='portfolio__link-button'>
+                    <a className='portfolio__link'
+                        href='https://mityourik.nomoredomainsrocks.ru'
+                        target='_blank'
+                        rel='noopener noreferrer'>
+                            Одностраничное приложение
+                        <p
+                            className='portfolio__link-button'
+                            aria-label='Кнопка-ссылка на проект'>
                                 &#x2197;
-                        </button>
+                        </p>
                     </a>
                 </li>
             </ul>

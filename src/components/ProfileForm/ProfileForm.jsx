@@ -1,22 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types'; 
 import './ProfileForm.css';
-import { useFormAndValidation } from '../../hooks/UseFormAndValidation';
 
-function ProfileForm ({ children, isEditing }) {
-    const { values, handleChange, errors } = useFormAndValidation();
-
+function ProfileForm({ children, isEditing, onSubmit, handleChange, errors, values }) {
     function handleSubmit(e) {
         e.preventDefault();
+        onSubmit(values);
     }
 
     return (
-        <form className='profile-form'
-            onSubmit={handleSubmit}
-            noValidate
-        >
+        <form className='profile-form' onSubmit={handleSubmit} noValidate>
             <label className='profile-form__label'>
-            Имя
+                Имя
                 <input
                     className={`profile-form__input ${errors.username ? 'invalid' : ''}`}
                     id='profile-form-username'
@@ -30,15 +25,12 @@ function ProfileForm ({ children, isEditing }) {
                     onChange={handleChange}
                     required
                 />
+                <span className='profile-form__span' id='profile-form-username-error'>
+                    {errors.username}
+                </span>
             </label>
-            <span 
-                className='profile-form__span' 
-                id='profile-form-username-error'
-            >
-                {errors.username}
-            </span>
             <label className='profile-form__label'>
-            Email
+                Email
                 <input
                     className={`profile-form__input ${errors.email ? 'invalid' : ''}`}
                     id='profile-form-email'
@@ -47,16 +39,14 @@ function ProfileForm ({ children, isEditing }) {
                     placeholder='Email'
                     pattern='[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+'
                     disabled={!isEditing}
-                    onChange={handleChange}
                     value={values.email || ''}
+                    onChange={handleChange}
                     required
                 />
+                <span className='profile-form__span' id='profile-form-email-error'>
+                    {errors.email}
+                </span>
             </label>
-            <span
-                className='profile-form__span'
-                id='profile-form-email-error'>
-                {errors.email}
-            </span>
             {children}
         </form>
     );
@@ -64,8 +54,14 @@ function ProfileForm ({ children, isEditing }) {
 
 ProfileForm.propTypes = {
     children: PropTypes.node,
-    onSubmit: PropTypes.func,
-    isEditing: PropTypes.bool,
+    onSubmit: PropTypes.func.isRequired,
+    isEditing: PropTypes.bool.isRequired,
+    handleChange: PropTypes.func.isRequired,
+    errors: PropTypes.object.isRequired,
+    values: PropTypes.shape({
+        username: PropTypes.string,
+        email: PropTypes.string,
+    }).isRequired,
 };
 
 export default ProfileForm;

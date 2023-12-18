@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import './SubmitFormButton.css';
 import { useLocation } from 'react-router-dom';
 
-function SubmitFormButton ({ isPreloading, buttonText, isFormValid }) {
+function SubmitFormButton ({ isPreloading, buttonText, isFormValid, errorMessage }) {
     const location = useLocation();
     const isErrorSpanSignin = location.pathname === '/signin';
 
@@ -14,7 +14,7 @@ function SubmitFormButton ({ isPreloading, buttonText, isFormValid }) {
         <>
             <span
                 className={isErrorSpanSignin ? 'submit-form-button__span-error_signin' : 'submit-form-button__span-error'}>
-                    При авторизации произошла ошибка. Токен не передан или передан не в том формате.
+                {errorMessage}
             </span>
             <button
                 className={buttonClass}
@@ -30,7 +30,8 @@ function SubmitFormButton ({ isPreloading, buttonText, isFormValid }) {
 SubmitFormButton.propTypes = {
     buttonText: PropTypes.string.isRequired,
     isPreloading: PropTypes.bool,
-    isFormValid: PropTypes.bool.isRequired
+    isFormValid: PropTypes.bool.isRequired,
+    errorMessage: PropTypes.string
 };
 
 export default SubmitFormButton;

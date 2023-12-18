@@ -6,16 +6,11 @@ import registerLogo from '../../images/header__logo.svg';
 import SubmitFormButton from '../SubmitFormButton/SubmitFormButton';
 import './Register.css';
 
-function Register ({ onRegister, isPreloading }) {
+function Register ({ onRegister, errorMessage, isPreloading }) {
     const [formIsValid, setFormIsValid] = useState(false);
 
     function handleValidChange(isValid) {
         setFormIsValid(isValid);
-    }
-
-    function handleSubmit(values) {
-        const { email, password } = values;
-        onRegister(password, email);
     }
 
     return (
@@ -31,7 +26,7 @@ function Register ({ onRegister, isPreloading }) {
                         className='register__title'>
                             Добро пожаловать!</h1>
                     <AuthForm
-                        onSubmit={handleSubmit}
+                        onSubmit={onRegister}
                         isRegistration={true}
                         onValidChange={handleValidChange}
                     >
@@ -39,6 +34,7 @@ function Register ({ onRegister, isPreloading }) {
                             buttonText='Зарегистрироваться'
                             isPreloading={isPreloading}
                             isFormValid={formIsValid}
+                            errorMessage={errorMessage}
                         />
                     </AuthForm>
                     <AuthNav
@@ -55,6 +51,7 @@ function Register ({ onRegister, isPreloading }) {
 Register.propTypes = {
     onRegister: PropTypes.func,
     isPreloading: PropTypes.bool,
+    errorMessage: PropTypes.string,
 };
 
 export default Register;

@@ -6,16 +6,11 @@ import SubmitFormButton from '../SubmitFormButton/SubmitFormButton';
 import loginLogo from '../../images/header__logo.svg';
 import './Login.css';
 
-function Login({ onLogin, isPreloading }) {
+function Login({ onLogin, isPreloading, errorMessage }) {
     const [formIsValid, setFormIsValid] = useState(false);
 
     function handleValidChange(isValid) {
         setFormIsValid(isValid);
-    }
-
-    function handleSubmit(values) {
-        const { email, password } = values;
-        onLogin(password, email);
     }
 
     return (
@@ -24,18 +19,21 @@ function Login({ onLogin, isPreloading }) {
                 <div className='login__container'>
                     <img
                         className='login__logo'
-                        src={loginLogo} />
+                        src={loginLogo}
+                        alt='Лого сайта'
+                    />
                     <h1
                         className='login__title'>
                         Рады видеть!</h1>
                     <AuthForm
-                        onSubmit={handleSubmit}
+                        onSubmit={onLogin}
                         onValidChange={handleValidChange}
                     >
                         <SubmitFormButton
                             buttonText='Войти'
                             isPreloading={isPreloading}
                             isFormValid={formIsValid}
+                            errorMessage={errorMessage}
                         />
                     </AuthForm>
                     <AuthNav
@@ -52,6 +50,7 @@ function Login({ onLogin, isPreloading }) {
 Login.propTypes = {
     onLogin: PropTypes.func,
     isPreloading: PropTypes.bool,
+    errorMessage: PropTypes.string
 };
 
 export default Login;

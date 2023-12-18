@@ -19,6 +19,7 @@
 .profile-form__label:nth-child(1) {
     border-top: none;
     padding-top: 0;
+    padding-bottom: 16px;
 }
 
 .profile-form__input {

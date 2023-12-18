@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types'; 
 import { useFormAndValidation } from '../../hooks/UseFormAndValidation';
 import './AuthForm.css';
+import { EMAIL_PATTERN } from '../../constants/constatnts';
 
 function AuthForm({ children, isRegistration, onSubmit, onValidChange }) {
     const { values, handleChange, errors, isValid } = useFormAndValidation();
@@ -13,7 +14,11 @@ function AuthForm({ children, isRegistration, onSubmit, onValidChange }) {
     function handleSubmit(e) {
         e.preventDefault();
         if (isValid) {
-            onSubmit(values);
+            if (isRegistration) {
+                onSubmit(values.name, values.email, values.password);
+            } else {
+                onSubmit(values.email, values.password);
+            }
         }
     }
 
@@ -27,22 +32,21 @@ function AuthForm({ children, isRegistration, onSubmit, onValidChange }) {
                     className='auth-form__label'>
             Имя
                     <input
-                        className={`auth-form__input ${errors.username ? 'invalid' : ''}`}
-                        id='auth-form-username'
+                        className={`auth-form__input ${errors.name ? 'invalid' : ''}`}
+                        id='auth-form-name'
                         type='text'
-                        name='username'
+                        name='name'
                         placeholder='Name'
-                        minLength='3'
                         maxLength='30'
-                        value={values.username || ''}
+                        value={values.name || ''}
                         onChange={handleChange}
                         required
                     />
                     <span 
                         className='auth-form__span' 
-                        id='auth-form-username-error'
+                        id='auth-form-name-error'
                     >
-                        {errors.username}
+                        {errors.name}
                     </span>
                 </label>
             )}
@@ -55,7 +59,7 @@ function AuthForm({ children, isRegistration, onSubmit, onValidChange }) {
                     type='email'
                     name='email'
                     placeholder='Email'
-                    pattern='[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+'
+                    pattern={EMAIL_PATTERN}
                     onChange={handleChange}
                     value={values.email || ''}
                     required

@@ -1,17 +1,44 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import './MenuPopup.css';
 import { NavLink } from 'react-router-dom';
 import profileIconThemeWhite from '../../images/menu-popup__profile-icon.svg';
+import { TIMEOUT_DELAY } from '../../constants/constatnts';
 
 function MenuPopup({ onClick }) {
     const [isOpen, setIsOpen] = useState(true);
+
+    useEffect(() => {
+        const handleOutsideClick = (event) => {
+            const clickedElement = event.target;
+
+            const clickedOutsidePopup = !clickedElement.closest('.menu-popup__two-columns_opened');
+            
+            if (clickedOutsidePopup) {
+                handleClose();
+            }
+        };
+
+        const handleEscPress = (event) => {
+            if (event.key === 'Escape') {
+                handleClose();
+            }
+        };
+
+        document.body.addEventListener('mousedown', handleOutsideClick);
+        document.addEventListener('keydown', handleEscPress);
+
+        return () => {
+            document.body.removeEventListener('mousedown', handleOutsideClick);
+            document.removeEventListener('keydown', handleEscPress);
+        };
+    }, []);
 
     const handleClose = () => {
         setIsOpen(false);
         setTimeout(() => {
             onClick();
-        }, 500);
+        }, TIMEOUT_DELAY);
     };
 
     return (
@@ -51,7 +78,11 @@ function MenuPopup({ onClick }) {
                 <div className='menu-popup__two-columns-content menu-popup__two-columns-content_profile'>
                     <button className='menu-popup__profile-button'>
                         <NavLink to='/profile' className='menu-popup__profile-link'>
-                            <img className='menu-popup__profile-icon' src={profileIconThemeWhite} alt='Изображение кнопки аккаунта' />
+                            <img
+                                className='menu-popup__profile-icon'
+                                src={profileIconThemeWhite}
+                                alt='Изображение кнопки аккаунта'
+                            />
                         </NavLink>
                     </button>
                 </div>

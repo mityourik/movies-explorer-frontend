@@ -92,6 +92,25 @@
     cursor: pointer;
 }
 
+.header__registration-link_theme-white {
+    display: flex;
+    color: #000;
+    font-family: 'Inter', 'Arial', sans-serif;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 16px;
+    text-decoration: none;
+    margin: 0 30px 0 0;
+    cursor: pointer;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+.header__registration-link_theme-white:hover {
+    opacity: 0.7;
+}
+
 .header__signin-link {
     text-decoration: none;
 }
@@ -113,6 +132,12 @@
     font-style: normal;
     font-weight: 500;
     line-height: 16px;
+    transition: opacity 0.3s ease;
+    opacity: 1;
+}
+
+.header__auth-button:hover {
+    opacity: 0.7;
 }
 
 .header__menu-icon {
@@ -178,6 +203,11 @@
     }
 
     .header__registration-link {
+        font-size: 10px;
+        margin: 0 14px 0 0;
+    }
+
+    .header__registration-link_theme-white {
         font-size: 10px;
         margin: 0 14px 0 0;
     }
