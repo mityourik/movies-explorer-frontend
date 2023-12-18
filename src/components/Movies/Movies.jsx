@@ -10,7 +10,6 @@ import { handleError } from '../../utils/handleError';
 import {
     MOVIE_API_URL,
     likedMoviesErrors,
-    // likedMoviesErrors,
     movieDeleteErrors,
     movieLikeErrors,
     movieSearchErrors
@@ -25,6 +24,13 @@ const Movies = () => {
     const [hasSearched, setHasSearched] = useState(false);
     const [searchError, setSearchError] = useState('');
     const [originalMovies, setOriginalMovies] = useState([]);
+
+    useEffect(() => {
+        const savedLikedMovies = localStorage.getItem('likedMovies');
+        if (savedLikedMovies) {
+            setLikedMovies(JSON.parse(savedLikedMovies));
+        }
+    }, []);
     
     const handleSearchSubmit = async (query) => {
         setIsLoading(true);
@@ -94,6 +100,7 @@ const Movies = () => {
             };
             const savedMovie = await mainApi.addMovieLike(movieData);
             setLikedMovies([...likedMovies, savedMovie]);
+            localStorage.setItem('likedMovies', JSON.stringify([...likedMovies, savedMovie]));
         } catch (error) {
             const errorMessage = handleError(error, movieLikeErrors);
             console.error(errorMessage);
@@ -143,6 +150,10 @@ const Movies = () => {
             try {
                 await mainApi.removeMovieLike(savedMovieId);
                 setLikedMovies(prevLikedMovies => prevLikedMovies.filter(likedMovie => likedMovie._id !== savedMovieId));
+                const updatedLikedMovies = likedMovies.filter(likedMovie => likedMovie._id !== savedMovieId);
+                setLikedMovies(updatedLikedMovies);
+
+                localStorage.setItem('likedMovies', JSON.stringify(updatedLikedMovies));
             } catch (error) {
                 const errorMessage = handleError(error, movieDeleteErrors);
                 console.error(errorMessage);
