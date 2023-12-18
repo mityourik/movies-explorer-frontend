@@ -123,8 +123,8 @@ function App() {
                 localStorage.removeItem('jwt');
                 localStorage.removeItem('searchQuery');
                 localStorage.removeItem('isShortFilm');
-                localStorage.removeItem('isShortFilmOnly');
                 localStorage.removeItem('initialMovies');
+                localStorage.removeItem('likedMovies');
                 setCurrentUser(null);
                 setLoggedIn(false);
     
